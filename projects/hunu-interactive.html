@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tectonic Tactics — Maxwell Wainwright</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">MW</a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <a href="../index.html#projects" class="project-back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Projects
+    </a>
+    <p class="project-eyebrow">Hunu Interactive &mdash; Turn-Based Strategy</p>
+    <h1 class="project-title">Tectonic Tactics</h1>
+    <div class="project-tags">
+      <span class="project-tag">Unity</span>
+      <span class="project-tag">C#</span>
+      <span class="project-tag">Multiplayer</span>
+      <span class="project-tag">AI / Minimax</span>
+      <span class="project-tag">Turn-Based</span>
+      <span class="project-tag">Cross-Platform</span>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="project-media">
+    <div class="media-container">
+      <div class="media-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1"/>
+          <path d="M10 8l6 4-6 4V8z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <p>Video Coming Soon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          Tectonic Tactics is a turn-based strategy game developed at Hunu Interactive. My focus was on the
+          systems layer — building the networking infrastructure, designer tooling, and AI opponent that power
+          the game. The goal throughout was to create systems that were not just functional, but designer-friendly:
+          non-programmers could iterate on abilities, tune AI difficulty, and create new content without ever
+          touching code.
+        </p>
+        <p>
+          The multiplayer implementation supports cross-platform play between Windows, Mac, and iOS devices, with
+          players connecting from anywhere in the United States through Unity's Lobby and Relay services.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Noteworthy Systems</h2>
+
+        <div class="system-item">
+          <h3>CSV-to-Scriptable Object Ability Pipeline</h3>
+          <p>Built a tool that allowed game designers to author ability templates directly in spreadsheets. Importing a CSV into the Unity project automatically parsed the data and populated ScriptableObjects acting as ability definitions. Creating new abilities or tuning existing ones became a two-step, code-free process — dramatically speeding up the design iteration cycle.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Minimax AI with Difficulty Scaling</h3>
+          <p>Implemented a minimax algorithm that builds subtrees of possible game outcomes and selects the moves that maximise the bot's positional advantage. The AI's aggressiveness and risk tolerance are exposed as tunable parameters — fully adjustable by game designers with no code changes required — allowing the bot to feel challenging for veteran players while remaining accessible at lower difficulties.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Server-Authoritative Command Interface</h3>
+          <p>Designed a Command Interface pattern where all player inputs — unit movement, captures, and unique unit abilities — are packaged as commands and sent to a CommandProcessor on the server. The server validates each command (preventing client-side cheating), executes it authoritatively, then fires Client RPCs to sync visuals across all connected clients.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Cross-Platform Lobby System</h3>
+          <p>Built a lobby system using Unity's Lobby and Relay APIs that allows players on Windows, Mac, and iPhone to discover and connect to each other regardless of geographical location or device type — tested successfully between opposite ends of the United States.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Studio</span>
+          <span class="sidebar-value">Hunu Interactive</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Engine</span>
+          <span class="sidebar-value">Unity</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Language</span>
+          <span class="sidebar-value">C#</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Type</span>
+          <span class="sidebar-value">Turn-Based Strategy</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Players</span>
+          <span class="sidebar-value">1–2 (Online)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Platforms</span>
+          <span class="sidebar-value">Windows, Mac, iOS</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Systems Programmer</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="project-screenshots">
+    <span class="section-label screenshots-label">Screenshots</span>
+    <div class="screenshots-grid">
+      <div class="screenshot-item">Screenshot 1</div>
+      <div class="screenshot-item">Screenshot 2</div>
+      <div class="screenshot-item">Screenshot 3</div>
+    </div>
+  </div>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="elementals.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Elementals</span>
+    </a>
+    <a href="fruit-ninjas.html" class="project-nav-link next">
+      <span class="nav-direction">Next Project</span>
+      <span class="nav-proj-title">Fruit Ninjas &rarr;</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

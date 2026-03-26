@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elementals — Maxwell Wainwright</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">MW</a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <a href="../index.html#projects" class="project-back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Projects
+    </a>
+    <p class="project-eyebrow">Custom C++ Engine &amp; 2D Fighting Game</p>
+    <h1 class="project-title">Elementals</h1>
+    <div class="project-tags">
+      <span class="project-tag">C++</span>
+      <span class="project-tag">Custom Engine</span>
+      <span class="project-tag">SFML 3.0</span>
+      <span class="project-tag">Fighting Game</span>
+      <span class="project-tag">2D</span>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="project-media">
+    <div class="media-container">
+      <div class="media-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1"/>
+          <path d="M10 8l6 4-6 4V8z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <p>Video Coming Soon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          Elementals is a 2D fighting game built entirely on top of a custom ASCII game engine written from
+          scratch in C++, developed as part of a technical game development college course using the Dragonfly
+          framework methodology. Every system in the engine — display, input, world state, logging, resource
+          management — was implemented by hand before a single line of game code was written.
+        </p>
+        <p>
+          Once the engine was functional, a complete local 2-player fighting game was built on top of it.
+          The game features a character system with complex input-driven move trees, a full hitbox and knockback
+          system, and custom hitstun mechanics — all implemented without relying on any physics library.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Noteworthy Systems</h2>
+
+        <div class="system-item">
+          <h3>Custom C++ Game Engine (Dragonfly)</h3>
+          <p>Built a complete game engine from the ground up in C++ using the SFML 3.0 library. All necessary managers were created from scratch: Display Manager, Input Manager, World State Manager, Game Manager, Log Manager, and more — forming a fully functional engine foundation before any gameplay was implemented.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Character Move Tree System</h3>
+          <p>Designed and implemented a character data structure that, at startup, constructs a large tree representing all possible moves for each character. Moves support string-input sequences — players must press specific button combinations in order to execute special moves, mimicking traditional fighting game input systems.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Hitbox, Knockback &amp; Hitstun System</h3>
+          <p>Built a custom hitbox system capable of applying knockback, hitstun, and damage to opponents on contact. Both knockback and hitstun were implemented as separate custom systems, giving the game a feel closer to traditional 2D fighters without the use of any physics engine.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Local 2-Player Support</h3>
+          <p>The game supports two players sharing a single keyboard, each controlling their character with a dedicated set of inputs — keeping things accessible while showcasing the full depth of the move and combat systems.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Engine</span>
+          <span class="sidebar-value">Custom (C++ / SFML 3.0)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Language</span>
+          <span class="sidebar-value">C++</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Type</span>
+          <span class="sidebar-value">Fighting Game / Engine Dev</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Players</span>
+          <span class="sidebar-value">2 (Local)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Engine &amp; Game Programmer</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="project-screenshots">
+    <span class="section-label screenshots-label">Screenshots</span>
+    <div class="screenshots-grid">
+      <div class="screenshot-item">Screenshot 1</div>
+      <div class="screenshot-item">Screenshot 2</div>
+      <div class="screenshot-item">Screenshot 3</div>
+    </div>
+  </div>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="physics-tag.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Physics Tag</span>
+    </a>
+    <a href="hunu-interactive.html" class="project-nav-link next">
+      <span class="nav-direction">Next Project</span>
+      <span class="nav-proj-title">Tectonic Tactics &rarr;</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

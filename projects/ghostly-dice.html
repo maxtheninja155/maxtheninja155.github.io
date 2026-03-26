@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghostly Dice — Maxwell Wainwright</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">MW</a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <a href="../index.html#projects" class="project-back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Projects
+    </a>
+    <p class="project-eyebrow">University of Melbourne Game Jam &mdash; 3 Days &mdash; Solo</p>
+    <h1 class="project-title">Ghostly Dice</h1>
+    <div class="project-tags">
+      <span class="project-tag">Unity</span>
+      <span class="project-tag">C#</span>
+      <span class="project-tag">Game Jam</span>
+      <span class="project-tag">Solo Dev</span>
+      <span class="project-tag">Physics</span>
+      <span class="project-tag">Stealth</span>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="project-media">
+    <div class="media-container">
+      <div class="media-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1"/>
+          <path d="M10 8l6 4-6 4V8z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <p>Video Coming Soon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          Ghostly Dice is a solo-developed game built in 3 days for the University of Melbourne game jam.
+          Developed entirely alone from concept to submission, the project demonstrates what's achievable in
+          a constrained time frame when the focus stays on tight, well-implemented systems rather than scope.
+        </p>
+        <p>
+          The game combines physics-based abilities with a stealth detection system, creating gameplay that
+          rewards spatial awareness and timing. Spring joints and trigonometry are used to manipulate rigid
+          bodies in ways that feel satisfying and physical, while the detection system keeps encounters tense.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Noteworthy Systems</h2>
+
+        <div class="system-item">
+          <h3>Physics-Based Ability System</h3>
+          <p>Player abilities were implemented using Unity spring joints and trigonometric calculations to manipulate rigid bodies dynamically. Rather than scripted animations or fixed trajectories, the abilities interact with the physics simulation — resulting in emergent, physical-feeling behavior that responds naturally to the environment.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Stealth Detection System</h3>
+          <p>A stealth-style detection system tracks player visibility and proximity to enemies, adjusting alert state dynamically. Detection is gradual and telegraphed, giving players a window to react — keeping encounters tense without feeling unfair.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Engine</span>
+          <span class="sidebar-value">Unity</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Language</span>
+          <span class="sidebar-value">C#</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Event</span>
+          <span class="sidebar-value">University of Melbourne Game Jam</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Duration</span>
+          <span class="sidebar-value">3 Days</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Solo Developer</span>
+        </div>
+        <a href="https://maxtheninja155.itch.io/ghostly-dice" target="_blank" rel="noopener" class="sidebar-link">
+          Play on itch.io &rarr;
+        </a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="project-screenshots">
+    <span class="section-label screenshots-label">Screenshots</span>
+    <div class="screenshots-grid">
+      <div class="screenshot-item">Screenshot 1</div>
+      <div class="screenshot-item">Screenshot 2</div>
+      <div class="screenshot-item">Screenshot 3</div>
+    </div>
+  </div>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="project-plant.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Project Plant</span>
+    </a>
+    <div></div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

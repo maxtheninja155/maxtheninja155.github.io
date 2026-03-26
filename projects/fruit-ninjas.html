@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fruit Ninjas — Maxwell Wainwright</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">MW</a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <a href="../index.html#projects" class="project-back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Projects
+    </a>
+    <p class="project-eyebrow">Networked Multiplayer &mdash; C++ / Dragonfly</p>
+    <h1 class="project-title">Fruit Ninjas</h1>
+    <div class="project-tags">
+      <span class="project-tag">C++</span>
+      <span class="project-tag">Dragonfly Engine</span>
+      <span class="project-tag">Socket Programming</span>
+      <span class="project-tag">Networking</span>
+      <span class="project-tag">Multiplayer</span>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="project-media">
+    <div class="media-container">
+      <div class="media-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1"/>
+          <path d="M10 8l6 4-6 4V8z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <p>Video Coming Soon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          Fruit Ninjas is a networked multiplayer reimagining of the classic mobile game, built in C++ on top of
+          the Dragonfly game engine. Between 2 and 5 players compete simultaneously to achieve the highest score
+          by slicing fruit, while cooperating to avoid hitting bombs — which end the session for everyone.
+        </p>
+        <p>
+          The project focused specifically on low-level networking: rather than using a high-level networking
+          library, everything was implemented through raw C++ socket programming. Custom message protocols were
+          designed from the ground up to synchronize game state across all clients in a server-authoritative model.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Noteworthy Systems</h2>
+
+        <div class="system-item">
+          <h3>Low-Level C++ Socket Programming</h3>
+          <p>All networking was implemented directly through C++ sockets — no networking middleware or library abstractions. This required manually managing socket lifecycle, connection state, send/receive buffers, and error handling for both the server and each client.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Custom Network Protocol Design</h3>
+          <p>Designed and implemented custom message protocols for client-server communication. Messages covered: player input events, fruit spawn synchronization, score updates, bomb events, and session end conditions — all structured to minimize bandwidth while keeping game state consistent across all clients.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Server-Authoritative Architecture</h3>
+          <p>The server owned and managed all authoritative game state — fruit positions, scores, and bomb events. Clients sent input events to the server, which resolved them and broadcast state updates back to all connected players, preventing any single client from having an unfair advantage or corrupting shared state.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Engine</span>
+          <span class="sidebar-value">Dragonfly (Custom)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Language</span>
+          <span class="sidebar-value">C++</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Type</span>
+          <span class="sidebar-value">Multiplayer Arcade</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Players</span>
+          <span class="sidebar-value">2–5</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Networking Programmer</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="project-screenshots">
+    <span class="section-label screenshots-label">Screenshots</span>
+    <div class="screenshots-grid">
+      <div class="screenshot-item">Screenshot 1</div>
+      <div class="screenshot-item">Screenshot 2</div>
+      <div class="screenshot-item">Screenshot 3</div>
+    </div>
+  </div>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="hunu-interactive.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Tectonic Tactics</span>
+    </a>
+    <a href="project-plant.html" class="project-nav-link next">
+      <span class="nav-direction">Next Project</span>
+      <span class="nav-proj-title">Project Plant &rarr;</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

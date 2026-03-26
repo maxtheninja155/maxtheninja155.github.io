@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Plant — Maxwell Wainwright</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">MW</a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <a href="../index.html#projects" class="project-back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      All Projects
+    </a>
+    <p class="project-eyebrow">First-Person Shooter &mdash; Solo Development</p>
+    <h1 class="project-title">Project Plant</h1>
+    <div class="project-tags">
+      <span class="project-tag">Unity</span>
+      <span class="project-tag">C#</span>
+      <span class="project-tag">FPS</span>
+      <span class="project-tag">Procedural Systems</span>
+      <span class="project-tag">RPG Mechanics</span>
+    </div>
+  </div>
+
+  <!-- Media -->
+  <div class="project-media">
+    <div class="media-container">
+      <div class="media-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1"/>
+          <path d="M10 8l6 4-6 4V8z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+        </svg>
+        <p>Video Coming Soon</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          Project Plant is a solo-developed first-person shooter built in Unity, focused on deep procedural
+          systems and RPG-style build crafting. Rather than centering the design on level content, the project
+          explores what it feels like when the gun itself is a living system — every aspect of how it moves,
+          recoils, and behaves is simulated procedurally in real time.
+        </p>
+        <p>
+          On top of that, a genetic build system — the Codon and Gene mechanic — lets players customize and
+          stack stat buffs in meaningful ways, rewarding intentional build planning over random chance. The
+          result is a game where the feel of play changes dramatically based on how a player builds their character.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Noteworthy Systems</h2>
+
+        <div class="system-item">
+          <h3>Procedural Gun Motion System</h3>
+          <p>All gun movement is simulated procedurally — there are no hand-authored animations. Systems implemented include: aiming down sights, reloading, gun sway (idle and movement-based), gun bobbing, multiple independent recoil systems, bloom, and landing/jumping camera reactions. Every element responds dynamically to player state.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Codon &amp; Gene Build System</h3>
+          <p>Players customize their character through Codons — open slot sequences (A, B, C, D) — into which they insert matching Genes to activate stat buffs. A Sequencer system continuously evaluates all slotted genes across the player's active codons and applies stat modifications in real time. Regular Genes provide straightforward buffs; Volatile Genes introduce an expiration and mutation mechanic, adding resource management and risk to the system.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Affinity System</h3>
+          <p>Rewards players for stacking multiple genes of the same type across different codons. The more a gene type is represented across the player's build, the larger the bonus stat multiplier applied — incentivising intentional build crafting and giving veteran players a meaningful optimization layer.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Custom Save System &amp; RNG Loot</h3>
+          <p>A custom game saving system persists inventory, player stats, and equipped items between sessions. An RNG loot system governs item drops and "unboxing" mechanics, with probability distributions tuned to keep progression feeling rewarding without becoming trivial.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Engine</span>
+          <span class="sidebar-value">Unity</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Language</span>
+          <span class="sidebar-value">C#</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Type</span>
+          <span class="sidebar-value">FPS / RPG Systems</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Players</span>
+          <span class="sidebar-value">1 (Singleplayer)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Solo Developer</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Screenshots -->
+  <div class="project-screenshots">
+    <span class="section-label screenshots-label">Screenshots</span>
+    <div class="screenshots-grid">
+      <div class="screenshot-item">Screenshot 1</div>
+      <div class="screenshot-item">Screenshot 2</div>
+      <div class="screenshot-item">Screenshot 3</div>
+    </div>
+  </div>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="fruit-ninjas.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Fruit Ninjas</span>
+    </a>
+    <a href="ghostly-dice.html" class="project-nav-link next">
+      <span class="nav-direction">Next Project</span>
+      <span class="nav-proj-title">Ghostly Dice &rarr;</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

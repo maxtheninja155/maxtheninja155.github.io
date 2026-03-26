@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maxwell Wainwright — Game Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">MW</a>
+      <div class="nav-links">
+        <a href="#projects" class="nav-link">Work</a>
+        <a href="#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Game Developer</p>
+      <h1 class="hero-name">Maxwell<br>Wainwright</h1>
+      <p class="hero-tagline">Building the systems and mechanics<br>that make games feel alive.</p>
+    </div>
+    <a href="#projects" class="scroll-cta">
+      <span>Explore Work</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </section>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section class="projects-section" id="projects">
+    <div class="section-header">
+      <span class="section-label">Selected Projects</span>
+    </div>
+    <div class="projects-grid">
+
+      <a href="projects/physics-tag.html" class="project-card" data-index="0">
+        <div class="card-image card-physics-tag">
+          <div class="card-grid-pattern"></div>
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Physics Tag</h3>
+          <p class="card-tags">Multiplayer &middot; Unity &middot; C# &middot; Networking</p>
+        </div>
+      </a>
+
+      <a href="projects/elementals.html" class="project-card" data-index="1">
+        <div class="card-image card-elementals">
+          <div class="card-grid-pattern"></div>
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Elementals</h3>
+          <p class="card-tags">C++ &middot; Custom Engine &middot; SFML &middot; Fighting Game</p>
+        </div>
+      </a>
+
+      <a href="projects/hunu-interactive.html" class="project-card" data-index="2">
+        <div class="card-image card-hunu">
+          <div class="card-grid-pattern"></div>
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Tectonic Tactics</h3>
+          <p class="card-tags">Unity &middot; Multiplayer &middot; AI &middot; Turn-Based</p>
+        </div>
+      </a>
+
+      <a href="projects/fruit-ninjas.html" class="project-card" data-index="3">
+        <div class="card-image card-fruit-ninjas">
+          <div class="card-grid-pattern"></div>
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Fruit Ninjas</h3>
+          <p class="card-tags">C++ &middot; Dragonfly &middot; Networking &middot; Multiplayer</p>
+        </div>
+      </a>
+
+      <a href="projects/project-plant.html" class="project-card" data-index="4">
+        <div class="card-image card-plant">
+          <div class="card-grid-pattern"></div>
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Project Plant</h3>
+          <p class="card-tags">Unity &middot; FPS &middot; Procedural Systems &middot; C#</p>
+        </div>
+      </a>
+
+      <a href="projects/ghostly-dice.html" class="project-card" data-index="5">
+        <div class="card-image card-ghostly">
+          <div class="card-grid-pattern"></div>
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Ghostly Dice</h3>
+          <p class="card-tags">Unity &middot; Game Jam &middot; Solo Dev &middot; 3 Days</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about-section" id="about">
+    <div class="about-inner">
+      <span class="section-label">About</span>
+      <h2 class="about-heading">Systems-focused<br>Game Developer</h2>
+      <p class="about-body">
+        I specialize in programming the underlying systems and mechanics that power games — from physics
+        simulations and networking architectures to AI and custom engine development. Whether building
+        multiplayer infrastructure, crafting deterministic physics models, or engineering designer-friendly
+        tooling, I focus on the code that makes everything else possible.
+      </p>
+      <div class="about-skills">
+        <div class="skill-group">
+          <span class="skill-label">Languages</span>
+          <span class="skill-value">C#, C++</span>
+        </div>
+        <div class="skill-group">
+          <span class="skill-label">Engines</span>
+          <span class="skill-value">Unity, Custom (C++/SFML)</span>
+        </div>
+        <div class="skill-group">
+          <span class="skill-label">Specialties</span>
+          <span class="skill-value">Networking, Physics, AI, Systems Design</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
