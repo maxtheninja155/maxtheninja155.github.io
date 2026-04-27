@@ -4,12 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Maxwell Wainwright — Game Developer</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
 
   <nav class="nav" id="nav">
     <div class="nav-inner">
@@ -17,6 +21,7 @@
       <div class="nav-links">
         <a href="#projects" class="nav-link">Work</a>
         <a href="#about" class="nav-link">About</a>
+        <a href="resume.html" class="nav-link">Resume</a>
       </div>
     </div>
   </nav>
@@ -24,8 +29,15 @@
   <!-- ===================== HERO ===================== -->
   <section class="hero" id="hero">
     <div class="hero-content">
-      <p class="hero-eyebrow">Software Engineer | Game Developer</p>
+      <p class="hero-eyebrow">Game Developer / Systems Programmer</p>
+      <h1 class="hero-name">Maxwell<br>Wainwright</h1>
       <p class="hero-tagline">Building the systems and mechanics that make games feel alive.</p>
+      <div class="hero-links">
+        <a href="resume.html" class="hero-link hero-link-internal">Resume</a>
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener" class="hero-link">itch.io</a>
+        <a href="https://github.com/maxtheninja155" target="_blank" rel="noopener" class="hero-link">GitHub</a>
+        <a href="https://www.linkedin.com/in/maxwell-wainwright/" target="_blank" rel="noopener" class="hero-link">LinkedIn</a>
+      </div>
     </div>
   </section>
 
@@ -36,9 +48,20 @@
     </div>
     <div class="projects-grid">
 
-      <a href="projects/physics-tag.html" class="project-card" data-index="0">
+      <a href="projects/hanover-insurance.html" class="project-card featured" data-index="0">
+        <div class="card-image card-hanover">
+          <div class="card-overlay">
+            <span class="card-view-btn">View Project &rarr;</span>
+          </div>
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">Hanover Insurance</h3>
+          <p class="card-tags">PERN Stack &middot; TypeScript &middot; Agile &middot; Web App</p>
+        </div>
+      </a>
+
+      <a href="projects/physics-tag.html" class="project-card" data-index="1">
         <div class="card-image card-physics-tag">
-          <div class="card-grid-pattern"></div>
           <div class="card-overlay">
             <span class="card-view-btn">View Project &rarr;</span>
           </div>
@@ -49,9 +72,8 @@
         </div>
       </a>
 
-      <a href="projects/elementals.html" class="project-card" data-index="1">
+      <a href="projects/elementals.html" class="project-card" data-index="2">
         <div class="card-image card-elementals">
-          <div class="card-grid-pattern"></div>
           <div class="card-overlay">
             <span class="card-view-btn">View Project &rarr;</span>
           </div>
@@ -62,9 +84,8 @@
         </div>
       </a>
 
-      <a href="projects/hunu-interactive.html" class="project-card" data-index="2">
+      <a href="projects/hunu-interactive.html" class="project-card" data-index="3">
         <div class="card-image card-hunu">
-          <div class="card-grid-pattern"></div>
           <div class="card-overlay">
             <span class="card-view-btn">View Project &rarr;</span>
           </div>
@@ -75,9 +96,8 @@
         </div>
       </a>
 
-      <a href="projects/fruit-ninjas.html" class="project-card" data-index="3">
+      <a href="projects/fruit-ninjas.html" class="project-card" data-index="4">
         <div class="card-image card-fruit-ninjas">
-          <div class="card-grid-pattern"></div>
           <div class="card-overlay">
             <span class="card-view-btn">View Project &rarr;</span>
           </div>
@@ -88,9 +108,8 @@
         </div>
       </a>
 
-      <a href="projects/project-plant.html" class="project-card" data-index="4">
+      <a href="projects/project-plant.html" class="project-card" data-index="5">
         <div class="card-image card-plant">
-          <div class="card-grid-pattern"></div>
           <div class="card-overlay">
             <span class="card-view-btn">View Project &rarr;</span>
           </div>
@@ -101,9 +120,8 @@
         </div>
       </a>
 
-      <a href="projects/ghostly-dice.html" class="project-card" data-index="5">
+      <a href="projects/ghostly-dice.html" class="project-card" data-index="6">
         <div class="card-image card-ghostly">
-          <div class="card-grid-pattern"></div>
           <div class="card-overlay">
             <span class="card-view-btn">View Project &rarr;</span>
           </div>
@@ -120,26 +138,30 @@
   <!-- ===================== ABOUT ===================== -->
   <section class="about-section" id="about">
     <div class="about-inner">
-      <span class="section-label">About</span>
-      <h2 class="about-heading">Systems-focused<br>Game Developer</h2>
-      <p class="about-body">
-        I specialize in programming the underlying systems and mechanics that power games — from physics
-        simulations and networking architectures to AI and custom engine development. Whether building
-        multiplayer infrastructure, crafting deterministic physics models, or engineering designer-friendly
-        tooling, I focus on the code that makes everything else possible.
-      </p>
-      <div class="about-skills">
-        <div class="skill-group">
-          <span class="skill-label">Languages</span>
-          <span class="skill-value">C#, C++</span>
-        </div>
-        <div class="skill-group">
-          <span class="skill-label">Engines</span>
-          <span class="skill-value">Unity, Custom (C++/SFML)</span>
-        </div>
-        <div class="skill-group">
-          <span class="skill-label">Specialties</span>
-          <span class="skill-value">Networking, Physics, AI, Systems Design</span>
+      <div class="about-left">
+        <span class="section-label">About</span>
+        <h2 class="about-heading">Systems-<br>focused<br>Game<br>Dev</h2>
+      </div>
+      <div class="about-right">
+        <p class="about-body">
+          I specialize in programming the underlying systems and mechanics that power games — from physics
+          simulations and networking architectures to AI and custom engine development. Whether building
+          multiplayer infrastructure, crafting deterministic physics models, or engineering designer-friendly
+          tooling, I focus on the code that makes everything else possible.
+        </p>
+        <div class="about-skills">
+          <div class="skill-group">
+            <span class="skill-label">Languages</span>
+            <span class="skill-value">C#, C++</span>
+          </div>
+          <div class="skill-group">
+            <span class="skill-label">Engines</span>
+            <span class="skill-value">Unity, Custom (C++/SFML)</span>
+          </div>
+          <div class="skill-group">
+            <span class="skill-label">Specialties</span>
+            <span class="skill-value">Networking, Physics, AI, Systems Design</span>
+          </div>
         </div>
       </div>
     </div>
