@@ -49,16 +49,16 @@
       <div class="project-description">
         <h2>Overview</h2>
         <p>
-          Physics Tag is a networked multiplayer game built on a full client-server architecture, capable of
-          connecting up to 4 players from geographically distributed locations across the United States with
+          Physics Tag is a networked multiplayer game built on a <strong>full client-server architecture</strong>, capable of
+          connecting <strong>up to 4 players</strong> from geographically distributed locations across the United States with
           playable latency. The project was a deep dive into the fundamentals of game networking — from building
-          and deploying remote server infrastructure to implementing custom prediction models that keep gameplay
+          and deploying <strong>remote server infrastructure</strong> to implementing <strong>custom prediction models</strong> that keep gameplay
           smooth under real-world network conditions.
         </p>
         <p>
           The core design challenge was making a fast-paced tag game feel responsive while keeping all movement
-          server-authoritative. This required a "Simulated Physics" approach using kinematics — movement that
-          feels physics-driven and fluid from the player's perspective, but stays fully deterministic on the server.
+          <strong>server-authoritative</strong>. This required a "Simulated Physics" approach using <strong>kinematics</strong> — movement that
+          feels physics-driven and fluid from the player's perspective, but stays <strong>fully deterministic</strong> on the server.
         </p>
       </div>
 
@@ -67,22 +67,22 @@
 
         <div class="system-item">
           <h3>Full Client-Server Architecture</h3>
-          <p>Built a complete client-server networking model with remote server hosts that connected players from across the United States. The server was deployed and accessible over the public internet, going well beyond local network play.</p>
+          <p>Built a complete client-server networking model with <strong>remote server hosts</strong> that connected players from across the United States. The server was <strong>deployed and accessible over the public internet</strong>, going well beyond local network play.</p>
         </div>
 
         <div class="system-item">
           <h3>Simulated Physics via Kinematics</h3>
-          <p>Instead of using a physics engine (which introduces non-determinism), movement was modeled with kinematics equations. This gave players the sensation of physics-based movement — with acceleration, friction, and momentum — while keeping the simulation fully deterministic for the server's authoritative model.</p>
+          <p>Instead of using a physics engine (which introduces non-determinism), movement was modeled with <strong>kinematics equations</strong>. This gave players the sensation of physics-based movement — with <strong>acceleration, friction, and momentum</strong> — while keeping the simulation <strong>fully deterministic</strong> for the server's authoritative model.</p>
         </div>
 
         <div class="system-item">
           <h3>Custom Client-Side Prediction & Interpolation</h3>
-          <p>Implemented a client-side prediction system that applied player inputs locally before the server confirmation arrived, then reconciled with server state. Combined with interpolation, this eliminated perceived input lag and kept movement smooth even under latency — without sacrificing server authority.</p>
+          <p>Implemented a <strong>client-side prediction system</strong> that applied player inputs locally before the server confirmation arrived, then reconciled with server state. Combined with <strong>interpolation</strong>, this <strong>eliminated perceived input lag</strong> and kept movement smooth even under latency — without sacrificing server authority.</p>
         </div>
 
         <div class="system-item">
           <h3>Networked Game State & Lobby</h3>
-          <p>Built a complete tag game with synchronized networked variables supporting up to 4 players. Game state — including who is "it," player positions, and scores — was fully replicated across all clients through a lobby connection system.</p>
+          <p>Built a complete tag game with <strong>synchronized networked variables</strong> supporting <strong>up to 4 players</strong>. Game state — including who is "it," player positions, and scores — was <strong>fully replicated across all clients</strong> through a lobby connection system.</p>
         </div>
       </div>
     </div>

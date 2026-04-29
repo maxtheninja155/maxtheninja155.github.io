@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DoomClimb &mdash; Maxwell Wainwright</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html#projects" class="nav-back">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Projects
+      </a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <p class="project-eyebrow">iOS App &mdash; Custom Transformer, CoreML &amp; Kilter Board BLE</p>
+    <h1 class="project-title">DoomClimb</h1>
+    <div class="project-tags">
+      <span class="project-tag">Swift / SwiftUI</span>
+      <span class="project-tag">PyTorch</span>
+      <span class="project-tag">CoreML</span>
+      <span class="project-tag">CoreBluetooth</span>
+      <span class="project-tag">SQLite</span>
+      <span class="project-tag">Custom Transformer</span>
+      <span class="project-tag">Classifier-Free Guidance</span>
+      <span class="project-tag">BLE Reverse-Engineering</span>
+      <span class="project-tag">On-Device Inference</span>
+    </div>
+  </div>
+
+  <!-- Walkthrough Video -->
+  <div class="project-media">
+    <div class="media-container portrait">
+      <video
+        src="../assets/doomclimb/walkthrough.mp4"
+        poster="../assets/doomclimb/walkthrough-poster.jpg"
+        controls
+        playsinline
+        preload="metadata">
+      </video>
+    </div>
+  </div>
+
+  <!-- Overview + sidebar -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          DoomClimb is a fully native iOS application for the Kilter Board &mdash; a motorized
+          climbing wall with 476 LED-backed holds &mdash; that uses a <strong>custom-trained transformer</strong>
+          to generate novel, climbable boulder routes on demand. Pick a grade and a wall angle,
+          and DoomClimb either generates a brand-new AI route or pulls a real community-set
+          climb from the official Kilter database, then <strong>connects to the wall over Bluetooth and
+          lights up the holds in real life</strong>.
+        </p>
+        <p>
+          The app is the product of an <strong>end-to-end ML pipeline</strong> I designed myself: data extraction
+          from a <strong>60K-climb SQLite corpus</strong>, <strong>custom 517-token vocabulary</strong>, a <strong>decoder-only transformer
+          trained with classifier-free guidance</strong>, <strong>CoreML export</strong>, and <strong>on-device autoregressive
+          inference</strong>. Layered on top is a <strong>reverse-engineered Bluetooth LE protocol</strong>, a <strong>graph-based
+          climbability validator</strong> with empirically calibrated reach, and a polished SwiftUI
+          interface for history, favorites, sessions, and stats.
+        </p>
+        <p>
+          Everything &mdash; model inference, validation, BLE, persistence &mdash; runs entirely on
+          device. There is <strong>no backend, no cloud dependency</strong>, and no network call required to
+          generate a route.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Headline Systems</h2>
+
+        <div class="system-item">
+          <h3>ClimbGPT &mdash; Custom Transformer (~2M params)</h3>
+          <p>Decoder-only GPT-style transformer <strong>trained from scratch</strong> on <strong>~60,000 community-set Kilter climbs</strong>. <strong>Custom 517-token vocabulary</strong> covering control tokens, V0&ndash;V16 grades, 0&ndash;70&deg; angles, hand/foot/start/finish roles, and one token per physical hold socket. Pre-norm GELU layers, <strong>weight-tied output projection</strong>, label smoothing, and <strong>classifier-free guidance</strong>.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>On-Device Inference + Physics-Aware Sampling</h3>
+          <p>Autoregressive sampler runs <strong>entirely on device via CoreML</strong>. <strong>Temperature scaling, top-K sampling</strong>, and <strong>CFG-interpolated logits</strong> with a configurable guidance scale steer generations toward the target grade and angle. A <strong>physics constraint layer</strong> suppresses illegal placements before sampling.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Climbability Validator</h3>
+          <p><strong>Graph-reachability check</strong> that guarantees every generated route is physically solvable. Adjacency graph is built within a calibrated Euclidean reach distance &mdash; the threshold (<strong>0.3179</strong>) was empirically derived from <strong>MST critical-reach distances over 66K real climbs</strong> at the <strong>95th percentile</strong>.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Reverse-Engineered Kilter BLE Protocol</h3>
+          <p>Full implementation of Aurora Climbing's <strong>Bluetooth LE protocol</strong>: <strong>24-bit RGB compressed to 8-bit RRRGGGBB</strong>, multi-packet framing with T/R/Q/S position headers, checksum + start/end markers, and <strong>20-byte chunked writes</strong> through the Nordic nRF UART TX characteristic.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Reproducible Training &amp; Eval Pipeline</h3>
+          <p><strong>Five-script PyTorch pipeline</strong> (MPS + CUDA) covering EDA, dataset construction, training, generation, and CoreML export. The eval harness runs <strong>360 generations across 6 grades &times; 3 angles &times; 20 samples</strong> and reports <strong>percent-climbable, structural validity, average hold count, and Jaccard diversity</strong> for quantitative comparison between revisions.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Platform</span>
+          <span class="sidebar-value">iOS 17+ (Native)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Languages</span>
+          <span class="sidebar-value">Swift 5, Python 3</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">UI</span>
+          <span class="sidebar-value">SwiftUI</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">ML Stack</span>
+          <span class="sidebar-value">PyTorch &rarr; CoreML</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Hardware</span>
+          <span class="sidebar-value">Kilter Board (BLE)</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Model</span>
+          <span class="sidebar-value">~2M-param decoder transformer</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Training Data</span>
+          <span class="sidebar-value">~60K real Kilter climbs</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Vocabulary</span>
+          <span class="sidebar-value">517 custom tokens</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Inference</span>
+          <span class="sidebar-value">100% on-device</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Solo &mdash; ML, iOS, BLE, Design</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Year</span>
+          <span class="sidebar-value">2026</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Deep dive: code + screenshots  -->
+  <!-- ============================== -->
+  <section class="project-deepdive">
+
+    <!-- 01 ClimbGPT architecture -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">01</span>
+        <span class="deepdive-label">Model Architecture</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>ClimbGPT &mdash; A Transformer for Climbing Routes</h3>
+        <p>
+          ClimbGPT is a decoder-only GPT-style transformer (~2M parameters, 4 layers, 4 heads,
+          256-dim embeddings) that autoregressively generates climbing routes conditioned on a
+          target V-grade and wall angle. The input prefix is always
+          <code>[BOS, GRADE, ANGLE]</code>, and the model emits <code>(HOLD, ROLE)</code> token
+          pairs until <code>EOS</code>. Pre-norm GELU layers and weight tying keep the parameter
+          count down without sacrificing stability.
+        </p>
+        <div class="deepdive-stats">
+          <span class="deepdive-stat"><strong>~2M</strong> parameters</span>
+          <span class="deepdive-stat"><strong>4</strong> layers / 4 heads</span>
+          <span class="deepdive-stat"><strong>256</strong>-dim embeddings</span>
+          <span class="deepdive-stat"><strong>517</strong>-token vocab</span>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Python &middot; PyTorch</span>
+            <span class="code-block-file">model/climb_gpt.py</span>
+          </div>
+<pre><code>class ClimbGPT(nn.Module):
+    """
+    Decoder-only GPT for autoregressive climbing route generation.
+    Input prefix: [BOS, GRADE_X, ANGLE_Y] -> generates (HOLD, ROLE) pairs until EOS.
+    """
+
+    def __init__(self, vocab_size, embed_dim, num_heads, num_layers,
+                 max_seq_len, dropout=0.1, pad_token_id=0, label_smoothing=0.0):
+        super().__init__()
+        self.token_emb = nn.Embedding(vocab_size, embed_dim, padding_idx=pad_token_id)
+        self.pos_emb   = nn.Embedding(max_seq_len, embed_dim)
+        self.drop      = nn.Dropout(dropout)
+
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=embed_dim,
+            nhead=num_heads,
+            dim_feedforward=embed_dim * 4,
+            dropout=dropout,
+            activation='gelu',
+            batch_first=True,
+            norm_first=True,   # Pre-norm for stable training
+        )
+        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
+        self.ln_f = nn.LayerNorm(embed_dim)
+
+        self.head = nn.Linear(embed_dim, vocab_size, bias=False)
+        self.head.weight = self.token_emb.weight  # Weight tying
+
+    def forward(self, x, targets=None):
+        B, T = x.shape
+        positions = torch.arange(T, device=x.device).unsqueeze(0)
+        h = self.token_emb(x) + self.pos_emb(positions)
+        h = self.drop(h)
+
+        causal_mask = nn.Transformer.generate_square_subsequent_mask(
+            T, device=x.device, dtype=h.dtype
+        )
+        pad_mask = (x == self.pad_token_id)
+
+        h = self.transformer(h, mask=causal_mask, src_key_padding_mask=pad_mask)
+        h = self.ln_f(h)
+        logits = self.head(h)
+
+        loss = None
+        if targets is not None:
+            loss = F.cross_entropy(
+                logits.view(-1, self.vocab_size),
+                targets.view(-1),
+                ignore_index=self.pad_token_id,
+                label_smoothing=self.label_smoothing,
+            )
+        return logits, loss</code></pre>
+        </div>
+        <p class="code-caption">Pre-norm GELU layers, weight-tied output projection, label-smoothed cross entropy. Trained on ~60K real Kilter climbs filtered by ascent count and quality.</p>
+      </div>
+    </div>
+
+    <!-- 02 CFG -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">02</span>
+        <span class="deepdive-label">Training</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Classifier-Free Guidance Dropout</h3>
+        <p>
+          To make the model controllable at inference time, 10% of training batches drop the
+          grade and angle condition tokens, replacing them with a single <code>UNCOND</code>
+          token. The model learns both conditional and unconditional distributions in the same
+          weights, which lets the inference engine interpolate between them
+          (<code>uncond + scale &times; (cond &minus; uncond)</code>) and steer generations
+          more strongly toward the target grade/angle.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Python &middot; PyTorch</span>
+            <span class="code-block-file">training/train_loop.py</span>
+          </div>
+<pre><code># CFG dropout: replace GRADE+ANGLE with UNCOND for 10% of training batches.
+# Sequence format: [BOS, GRADE, ANGLE, holds..., EOS, PAD...]
+# At inference, we interpolate: uncond + scale * (cond - uncond)
+
+CFG_DROP_PROB = 0.10
+
+for batch_idx, (inp, tgt) in enumerate(train_loader):
+    inp, tgt = inp.to(DEVICE), tgt.to(DEVICE)
+
+    if CFG_DROP_PROB > 0:
+        drop_mask = torch.rand(inp.size(0), device=inp.device) < CFG_DROP_PROB
+        if drop_mask.any():
+            inp[drop_mask, 1] = uncond_token  # GRADE -> UNCOND
+            inp[drop_mask, 2] = uncond_token  # ANGLE -> UNCOND
+
+    _, loss = model(inp, tgt)
+    optimizer.zero_grad()
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    optimizer.step()
+    scheduler.step()</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Inference + screenshots -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">03</span>
+        <span class="deepdive-label">On-Device Inference</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Autoregressive Sampling, Entirely On Device</h3>
+        <p>
+          The Swift inference engine drives the generation loop itself: at each step it runs
+          the CoreML model twice (once on the conditional prefix, once on the unconditional
+          one), interpolates the logits with the configured guidance scale, applies physics
+          constraints, and samples with temperature + top-K. CoreML doesn't support
+          data-dependent loops in the graph, so the loop lives in Swift and the model is
+          exported as a fixed-shape forward pass.
+        </p>
+        <div class="deepdive-stats">
+          <span class="deepdive-stat"><strong>T = 0.9</strong> temperature</span>
+          <span class="deepdive-stat"><strong>K = 40</strong> top-K</span>
+          <span class="deepdive-stat"><strong>5</strong> validation retries</span>
+        </div>
+
+        <div class="phone-strip">
+          <div class="phone-shot" data-caption="Generator">
+            <img src="../assets/doomclimb/01-generator.png" alt="DoomClimb route generator with grade and angle sliders" loading="lazy">
+          </div>
+          <div class="phone-shot" data-caption="Generated Route">
+            <img src="../assets/doomclimb/02-route-board.png" alt="A generated V5 route shown on the virtual Kilter board" loading="lazy">
+          </div>
+          <div class="phone-shot" data-caption="Hold Editor">
+            <img src="../assets/doomclimb/03-editing.png" alt="Tap-to-edit hold roles on the board" loading="lazy">
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift &middot; CoreML</span>
+            <span class="code-block-file">DoomClimb/Generation/CoreMLRouteGenerator.swift</span>
+          </div>
+<pre><code>private func generateOnce(grade: Int, angle: Int, temperature: Float,
+                          topK: Int, guidanceScale: Float) -> BoulderRoute? {
+    let gradeTok = Self.gradeToken(for: grade)
+    guard let angleTok = Self.angleToken(for: angle) else { return nil }
+
+    // Conditional prefix: [BOS, GRADE, ANGLE, PAD...]
+    var condTokens = [Int](repeating: Self.PAD, count: maxSeqLen)
+    condTokens[0] = Self.BOS; condTokens[1] = gradeTok; condTokens[2] = angleTok
+
+    // Unconditional prefix: [BOS, UNCOND, UNCOND, PAD...]
+    var uncondTokens = [Int](repeating: Self.PAD, count: maxSeqLen)
+    uncondTokens[0] = Self.BOS; uncondTokens[1] = Self.UNCOND; uncondTokens[2] = Self.UNCOND
+
+    var length = 3
+
+    for _ in 0..&lt;(maxSeqLen - 3) {
+        guard let condLogits   = predict(tokens: condTokens)   else { return nil }
+        guard let uncondLogits = predict(tokens: uncondTokens) else { return nil }
+
+        let offset = (length - 1) * vocabSize
+
+        // CFG: steer toward target grade/angle
+        var logits = [Float](repeating: 0, count: vocabSize)
+        for i in 0..&lt;vocabSize {
+            let c = condLogits[offset + i]
+            let u = uncondLogits[offset + i]
+            logits[i] = u + guidanceScale * (c - u)
+        }
+
+        // Physics constraint: suppress START role after kickboard holds
+        if kickboardHoldTokens.contains(condTokens[length - 1]) {
+            logits[Self.startRoleToken] = -Float.infinity
+        }
+
+        // Temperature + top-k sampling
+        for i in 0..&lt;logits.count { logits[i] /= temperature }
+        let nextToken = sampleTopK(logits: logits, k: topK)
+
+        if nextToken == Self.EOS { break }
+        condTokens[length]   = nextToken
+        uncondTokens[length] = nextToken
+        length += 1
+    }
+
+    return decodeRoute(tokens: Array(condTokens[0..&lt;length]),
+                       grade: grade, angle: angle)
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Top-K -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">04</span>
+        <span class="deepdive-label">Sampling</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Numerically Stable Top-K Sampling</h3>
+        <p>
+          A small, deliberate piece of the inference pipeline: sort the logits, softmax over
+          the top-K subset only (using the standard <code>x - max(x)</code> trick for numerical
+          stability), and draw a multinomial sample. Doing the softmax on the truncated set is
+          both faster and removes any chance of low-probability tail samples sneaking through.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift</span>
+            <span class="code-block-file">DoomClimb/Generation/CoreMLRouteGenerator.swift</span>
+          </div>
+<pre><code>private func sampleTopK(logits: [Float], k: Int) -> Int {
+    let indexed = logits.enumerated().map { ($0.offset, $0.element) }
+    let topK = indexed.sorted(by: { $0.1 > $1.1 }).prefix(k)
+
+    // Numerically stable softmax over the top-k subset
+    let maxLogit = topK.first?.1 ?? 0
+    let exps = topK.map { exp($0.1 - maxLogit) }
+    let sumExps = exps.reduce(0, +)
+    let probs = exps.map { $0 / sumExps }
+
+    // Multinomial sample
+    let r = Float.random(in: 0..&lt;1)
+    var cumulative: Float = 0
+    for (i, prob) in probs.enumerated() {
+        cumulative += prob
+        if r &lt; cumulative {
+            return topK[topK.index(topK.startIndex, offsetBy: i)].0
+        }
+    }
+    return topK.last?.0 ?? Self.EOS
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 Validator -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">05</span>
+        <span class="deepdive-label">Safety Layer</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Climbability Validator &mdash; BFS over a Reach Graph</h3>
+        <p>
+          A generative model can hand back a route that looks plausible but isn't actually
+          climbable &mdash; islands of holds with no path between them. The validator builds an
+          adjacency graph over the hand holds where edges only exist between holds within the
+          calibrated reach threshold, then runs BFS from any start hold to any finish hold. If
+          the search can't reach a finish, the route is rejected and the generator retries.
+        </p>
+        <p>
+          The same algorithm runs in both Swift (at runtime, before display) and Python (at
+          training-eval time), so the model is judged in training by exactly the same rule it
+          will face in production.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift</span>
+            <span class="code-block-file">DoomClimb/Validation/ClimbabilityValidator.swift</span>
+          </div>
+<pre><code>enum ClimbabilityValidator {
+
+    /// Calibrated from real climb data: 95th percentile of critical reaches.
+    static let maxReach: Double = 0.3179
+
+    static func isClimbable(_ holds: [RouteHold]) -> Bool {
+        var handHolds: [(id: Int, x: Double, y: Double)] = []
+        var startIndices:  [Int] = []
+        var finishIndices: [Int] = []
+
+        for rh in holds {
+            guard rh.role != .footOnly else { continue }
+            let idx = handHolds.count
+            handHolds.append((id: rh.hold.id, x: rh.hold.x, y: rh.hold.y))
+            switch rh.role {
+            case .start:  startIndices.append(idx)
+            case .finish: finishIndices.append(idx)
+            default:      break
+            }
+        }
+
+        guard !startIndices.isEmpty, !finishIndices.isEmpty,
+              handHolds.count >= 3 else { return false }
+
+        // Build adjacency graph within human reach distance
+        let n = handHolds.count
+        var adj = [[Int]](repeating: [], count: n)
+        for i in 0..&lt;n {
+            for j in (i + 1)..&lt;n {
+                let dx = handHolds[i].x - handHolds[j].x
+                let dy = handHolds[i].y - handHolds[j].y
+                if (dx*dx + dy*dy).squareRoot() &lt;= maxReach {
+                    adj[i].append(j); adj[j].append(i)
+                }
+            }
+        }
+
+        // BFS from all start holds — success if any finish hold is reached
+        let finishSet = Set(finishIndices)
+        var visited = Set(startIndices)
+        var queue = startIndices
+        var head = 0
+
+        while head &lt; queue.count {
+            let node = queue[head]; head += 1
+            if finishSet.contains(node) { return true }
+            for neighbor in adj[node] where !visited.contains(neighbor) {
+                visited.insert(neighbor); queue.append(neighbor)
+            }
+        }
+        return false
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 Reach calibration -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">06</span>
+        <span class="deepdive-label">Calibration</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Reach Threshold from Real Climb Data</h3>
+        <p>
+          The reach threshold isn't a guessed constant &mdash; it's calibrated from the data. For
+          each of 66K real climbs I compute the longest edge in its Minimum Spanning Tree (the
+          smallest reach that would still let a climber connect every hand hold), then take the
+          95th percentile across the whole corpus. The validator then matches the actual
+          distribution of human reach in the wild, instead of an engineer's guess.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Python</span>
+            <span class="code-block-file">eval/calibrate_reach.py</span>
+          </div>
+<pre><code>def _mst_max_edge(positions):
+    """Longest edge in the Minimum Spanning Tree (Prim's algorithm).
+    This is the 'critical reach' - the minimum max_reach to connect all holds."""
+    n = len(positions)
+    if n &lt; 2:
+        return 0.0
+
+    in_mst   = [False] * n
+    min_edge = [float('inf')] * n
+    min_edge[0] = 0.0
+    max_edge = 0.0
+
+    for _ in range(n):
+        u = min((v for v in range(n) if not in_mst[v]),
+                key=lambda v: min_edge[v])
+        in_mst[u] = True
+        if min_edge[u] > max_edge and min_edge[u] &lt; float('inf'):
+            max_edge = min_edge[u]
+        for v in range(n):
+            if not in_mst[v]:
+                d = euclidean_distance(positions[u], positions[v])
+                if d &lt; min_edge[v]:
+                    min_edge[v] = d
+
+    return max_edge
+
+
+def calibrate_reach(climbs, socket_positions, percentile=95):
+    """Returns the Nth percentile of critical reaches across all training climbs."""
+    critical_reaches = []
+    for holds in climbs:
+        hand_positions = [socket_positions[pid] for pid, rid in holds
+                          if rid in HAND_ROLES and pid in socket_positions]
+        if len(hand_positions) >= 2:
+            critical_reaches.append(_mst_max_edge(hand_positions))
+
+    critical_reaches.sort()
+    idx = min(int(len(critical_reaches) * percentile / 100),
+              len(critical_reaches) - 1)
+    return critical_reaches[idx], critical_reaches</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 BLE protocol -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">07</span>
+        <span class="deepdive-label">Hardware</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Reverse-Engineered Kilter BLE Protocol</h3>
+        <p>
+          To light up the wall, DoomClimb speaks the Aurora Climbing protocol directly. Each
+          hold is encoded as a three-byte tuple <code>[pos_lo, pos_hi, color]</code>, with
+          24-bit RGB packed into 8 bits as <code>RRRGGGBB</code>. Payloads are framed with a
+          start byte, length, checksum, end byte, and tagged with multi-packet position
+          headers (T/R/Q/S) when the message is too big for a single packet.
+        </p>
+        <div class="deepdive-stats">
+          <span class="deepdive-stat"><strong>RRRGGGBB</strong> 24&rarr;8 bit color</span>
+          <span class="deepdive-stat"><strong>~NOT</strong> sum checksum</span>
+          <span class="deepdive-stat"><strong>20 B</strong> BLE chunks</span>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift</span>
+            <span class="code-block-file">DoomClimb/Bluetooth/KilterBoardProtocol.swift</span>
+          </div>
+<pre><code>enum KilterBoardProtocol {
+
+    // Pack 24-bit RGB -> 8-bit RRRGGGBB (3 bits R, 3 bits G, 2 bits B)
+    static func encodeColor(r: UInt8, g: UInt8, b: UInt8) -> UInt8 {
+        let rBits = r / 32   // 0–7  (3 bits)
+        let gBits = g / 32   // 0–7  (3 bits)
+        let bBits = b / 64   // 0–3  (2 bits)
+        return (rBits &lt;&lt; 5) | (gBits &lt;&lt; 2) | bBits
+    }
+
+    // Encode a single hold: [pos_lo, pos_hi, color_byte]
+    static func encodePlacement(position: Int, role: HoldRole) -> [UInt8] {
+        let (r, g, b): (UInt8, UInt8, UInt8) = switch role {
+            case .start:    (0x00, 0xFF, 0x00)   // Green
+            case .middle:   (0x00, 0xFF, 0xFF)   // Cyan
+            case .finish:   (0xFF, 0x00, 0xFF)   // Magenta
+            case .footOnly: (0xFF, 0xB6, 0x00)   // Orange
+        }
+        return [UInt8(position &amp; 0xFF),
+                UInt8((position >> 8) &amp; 0xFF),
+                encodeColor(r: r, g: g, b: b)]
+    }
+
+    // Packet position headers (multi-packet messages)
+    private enum PacketHeader: UInt8 {
+        case only  = 84   // 'T' — single packet
+        case first = 82   // 'R' — first of multiple
+        case mid   = 81   // 'Q' — middle
+        case last  = 83   // 'S' — last
+    }
+
+    // Checksum: bitwise NOT of sum of payload bytes
+    private static func checksum(_ data: [UInt8]) -> UInt8 {
+        let sum = data.reduce(0) { ($0 + UInt16($1)) &amp; 0xFF }
+        return UInt8(~sum &amp; 0xFF)
+    }
+
+    // Frame a payload: [0x01, length, checksum, 0x02, ...payload, 0x03]
+    private static func framePacket(_ payload: [UInt8]) -> [UInt8] {
+        var packet: [UInt8] = [0x01, UInt8(payload.count &amp; 0xFF),
+                               checksum(payload), 0x02]
+        packet.append(contentsOf: payload)
+        packet.append(0x03)
+        return packet
+    }
+}</code></pre>
+        </div>
+        <p class="code-caption">Color mapping is part of the wire protocol: green starts, cyan middles, magenta finishes, orange feet.</p>
+      </div>
+    </div>
+
+    <!-- 08 BLE stack -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">08</span>
+        <span class="deepdive-label">CoreBluetooth</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>BLE Stack &mdash; Discovery, Write, Sequence</h3>
+        <p>
+          On top of the protocol sits a CoreBluetooth manager that scans for the Aurora
+          Climbing service UUID, connects to the board, discovers the Nordic nRF UART TX
+          characteristic, and sequences 20-byte chunk writes with a 10ms inter-chunk delay
+          so the BLE stack on the board has time to drain its buffer.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift &middot; CoreBluetooth</span>
+            <span class="code-block-file">DoomClimb/Bluetooth/KilterBoardBLE.swift</span>
+          </div>
+<pre><code>final class KilterBoardBLE: NSObject, ObservableObject {
+
+    // Aurora Climbing / Nordic nRF UART service + TX characteristic UUIDs
+    private static let advertisingServiceUUID =
+        CBUUID(string: "4488b571-7806-4df6-bcff-a2897e4953ff")
+    private static let uartServiceUUID =
+        CBUUID(string: "6e400001-b5a3-f393-e0a9-e50e24dcca9e")
+    private static let txCharacteristicUUID =
+        CBUUID(string: "6e400002-b5a3-f393-e0a9-e50e24dcca9e")
+
+    @Published private(set) var state: ConnectionState = .disconnected
+
+    func sendLEDs(chunks: [Data]) {
+        guard let characteristic = txCharacteristic,
+              let peripheral = connectedPeripheral,
+              state.isConnected else { return }
+
+        pendingChunks = chunks
+        sendNextChunk(peripheral: peripheral, characteristic: characteristic)
+    }
+
+    private func sendNextChunk(peripheral: CBPeripheral,
+                               characteristic: CBCharacteristic) {
+        guard !pendingChunks.isEmpty else { return }
+        let chunk = pendingChunks.removeFirst()
+        peripheral.writeValue(chunk, for: characteristic, type: .withoutResponse)
+
+        // 10ms delay between chunks to avoid overwhelming the BLE stack
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) { [weak self] in
+            self?.sendNextChunk(peripheral: peripheral, characteristic: characteristic)
+        }
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09 Database + screenshots -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">09</span>
+        <span class="deepdive-label">Real Climb Data</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Kilter Database Integration</h3>
+        <p>
+          DoomClimb ships with the official Kilter SQLite database bundled. A read-only query
+          engine pulls real, community-set climbs filtered by angle, V-grade range, and layout
+          compatibility, then parses Kilter's proprietary frame format
+          (<code>p1073r12p1074r13&hellip;</code>) into <code>(placement_id, role_id)</code>
+          pairs and maps them through the hold socket map.
+        </p>
+
+        <div class="phone-strip">
+          <div class="phone-shot" data-caption="Send Tracker">
+            <img src="../assets/doomclimb/04-send-tracker.png" alt="Send tracker showing 3 attempts and a sent climb" loading="lazy">
+          </div>
+          <div class="phone-shot" data-caption="History">
+            <img src="../assets/doomclimb/08-history.png" alt="Day-grouped history of saved climbs" loading="lazy">
+          </div>
+          <div class="phone-shot" data-caption="Share">
+            <img src="../assets/doomclimb/10-share.png" alt="QR code share sheet for sending a climb to another user" loading="lazy">
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift &middot; SQLite</span>
+            <span class="code-block-file">DoomClimb/Data/KilterDatabaseService.swift</span>
+          </div>
+<pre><code>func fetchRandomClimb(grade: Int, angle: Int) -> BoulderRoute? {
+    let (minDiff, maxDiff) = Self.difficultyRange(for: grade)
+
+    let sql = """
+        SELECT c.name, c.frames
+        FROM   climbs c
+        JOIN   climb_stats cs ON cs.climb_uuid = c.uuid
+        WHERE  cs.angle               = ?
+          AND  cs.difficulty_average >= ?
+          AND  cs.difficulty_average  &lt; ?
+          AND  c.is_listed            = 1
+          AND  c.frames_count         = 1
+          AND  c.layout_id            = ?
+        ORDER  BY RANDOM()
+        LIMIT  1
+    """
+
+    var stmt: OpaquePointer?
+    guard sqlite3_prepare_v2(db, sql, -1, &amp;stmt, nil) == SQLITE_OK else { return nil }
+    defer { sqlite3_finalize(stmt) }
+
+    sqlite3_bind_int(stmt, 1, Int32(angle))
+    sqlite3_bind_double(stmt, 2, minDiff)
+    sqlite3_bind_double(stmt, 3, maxDiff)
+    sqlite3_bind_int(stmt, 4, Int32(Self.layoutId))
+
+    guard sqlite3_step(stmt) == SQLITE_ROW else { return nil }
+
+    let name   = String(cString: sqlite3_column_text(stmt, 0))
+    let frames = String(cString: sqlite3_column_text(stmt, 1))
+    let holds  = parseFrames(frames)
+
+    return BoulderRoute(name: name, holds: holds, grade: "V\(grade)",
+                        angle: angle, technique: "Kilter Board", generatedAt: .now)
+}
+
+// Parse Kilter's proprietary frame format: "p1073r12p1074r13p1489r14..."
+private func parseFrames(_ frames: String) -> [RouteHold] {
+    frames.components(separatedBy: "p").filter { !$0.isEmpty }.compactMap { part in
+        let tokens = part.components(separatedBy: "r")
+        guard tokens.count == 2,
+              let pid = Int(tokens[0]), let rid = Int(tokens[1]),
+              let pos = HoldSocketMap.positions[pid] else { return nil }
+
+        let hold = Hold(id: pid, row: 0, col: 0, x: Double(pos.x), y: Double(pos.y),
+                        holdType: .jug, difficulty: 5)
+        return RouteHold(hold: hold, role: Self.mapRole(rid))
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 CoreML export -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">10</span>
+        <span class="deepdive-label">Deployment</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>CoreML Export &mdash; Trace, Convert, Ship</h3>
+        <p>
+          CoreML doesn't support in-graph autoregressive loops, so I export the model as a
+          single forward pass that returns the full
+          <code>(1, MAX_SEQ_LEN, vocab_size)</code> logits tensor. The Swift caller indexes the
+          relevant position at each step, which keeps the entire generation loop free of
+          data-dependent tensor ops in the graph.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Python &middot; coremltools</span>
+            <span class="code-block-file">export/export_coreml.py</span>
+          </div>
+<pre><code>class ClimbGPTForExport(nn.Module):
+    """Wraps ClimbGPT for CoreML tracing.
+    Returns full (1, MAX_SEQ_LEN, vocab_size) logits so the Swift caller
+    can index any position without data-dependent tensor ops in the graph."""
+
+    def forward(self, tokens):  # tokens: (1, MAX_SEQ_LEN) int32
+        logits, _ = self.model(tokens)
+        return logits  # (1, MAX_SEQ_LEN, vocab_size)
+
+
+# Trace and convert
+traced = torch.jit.trace(wrapper, (example_tokens,), check_trace=False)
+
+mlmodel = ct.convert(
+    traced,
+    inputs=[ct.TensorType(name="tokens",
+                          shape=(1, max_seq_len), dtype=int)],
+    outputs=[ct.TensorType(name="logits")],
+    minimum_deployment_target=ct.target.iOS17,
+)
+mlmodel.save("export/ClimbGPT.mlpackage")</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 History + screenshots -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">11</span>
+        <span class="deepdive-label">Persistence</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>History, Favorites, Smart Naming</h3>
+        <p>
+          Every generation, edit, and send gets persisted as JSON with a UUID and an ISO8601
+          timestamp. The store auto-prunes the oldest <em>non-favorited</em> climb when the
+          5,000-climb cap is reached, and falls through a smart naming hierarchy: user-set
+          name &rarr; community DB name &rarr; positional default
+          (e.g. <code>V4@40_Climb#3</code>).
+        </p>
+
+        <div class="phone-strip">
+          <div class="phone-shot" data-caption="Session Planner">
+            <img src="../assets/doomclimb/05-session-planner.png" alt="Session planner with Easy / Normal / Project options" loading="lazy">
+          </div>
+          <div class="phone-shot" data-caption="Session Queue">
+            <img src="../assets/doomclimb/06-session.png" alt="Generated session with warm-ups, base climbs and a project" loading="lazy">
+          </div>
+          <div class="phone-shot" data-caption="Stats">
+            <img src="../assets/doomclimb/09-stats.png" alt="Stats screen showing streaks, totals and a grade pyramid" loading="lazy">
+          </div>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">Swift</span>
+            <span class="code-block-file">DoomClimb/Persistence/ClimbHistoryStore.swift</span>
+          </div>
+<pre><code>@MainActor
+final class ClimbHistoryStore: ObservableObject {
+
+    static let maxClimbs = 5000
+
+    @Published private(set) var history: [SavedClimb] = []
+
+    /// Display name priority: user custom name -> DB climb name -> positional default
+    func displayName(for climb: SavedClimb) -> String {
+        if let custom = climb.customName, !custom.isEmpty { return custom }
+        if let dbName = climb.route.name, !dbName.isEmpty { return dbName }
+
+        let cal = Calendar.current
+        let day = cal.startOfDay(for: climb.savedAt)
+        let sameDay = history.filter { cal.startOfDay(for: $0.savedAt) == day }
+        let position = (sameDay.firstIndex(where: { $0.id == climb.id }) ?? 0) + 1
+        return "\(climb.route.grade)@\(climb.route.angle)_Climb#\(position)"
+    }
+
+    /// Prunes oldest non-favorited climbs to stay under the cap. Favorites are immune.
+    private func prune() {
+        while history.count > Self.maxClimbs {
+            guard let idx = history.firstIndex(where: { !$0.isFavorite }) else { break }
+            history.remove(at: idx)
+        }
+    }
+
+    private func save() {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        if let data = try? encoder.encode(history) {
+            try? data.write(to: fileURL, options: .atomic)
+        }
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="ghostly-dice.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Ghostly Dice</span>
+    </a>
+    <a href="hanover-insurance.html" class="project-nav-link next">
+      <span class="nav-direction">Next Project</span>
+      <span class="nav-proj-title">Hanover Insurance &rarr;</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/maxtheninja155" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/maxwell-wainwright/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

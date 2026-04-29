@@ -19,6 +19,9 @@ const MIME = {
   '.woff': 'font/woff',
   '.woff2':'font/woff2',
   '.pdf':  'application/pdf',
+  '.mp4':  'video/mp4',
+  '.mov':  'video/quicktime',
+  '.webm': 'video/webm',
 };
 
 const server = http.createServer((req, res) => {

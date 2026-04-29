@@ -57,13 +57,13 @@
         <h2>Overview</h2>
         <p>
           Fruit Ninjas is a networked multiplayer reimagining of the classic mobile game, built in C++ on top of
-          the Dragonfly game engine. Between 2 and 5 players compete simultaneously to achieve the highest score
+          the Dragonfly game engine. Between <strong>2 and 5 players</strong> compete simultaneously to achieve the highest score
           by slicing fruit, while cooperating to avoid hitting bombs — which end the session for everyone.
         </p>
         <p>
           The project focused specifically on low-level networking: rather than using a high-level networking
-          library, everything was implemented through raw C++ socket programming. Custom message protocols were
-          designed from the ground up to synchronize game state across all clients in a server-authoritative model.
+          library, everything was implemented through <strong>raw C++ socket programming</strong>. <strong>Custom message protocols</strong> were
+          designed from the ground up to synchronize game state across all clients in a <strong>server-authoritative model</strong>.
         </p>
       </div>
 
@@ -72,17 +72,17 @@
 
         <div class="system-item">
           <h3>Low-Level C++ Socket Programming</h3>
-          <p>All networking was implemented directly through C++ sockets — no networking middleware or library abstractions. This required manually managing socket lifecycle, connection state, send/receive buffers, and error handling for both the server and each client.</p>
+          <p>All networking was implemented directly through <strong>C++ sockets</strong> — <strong>no networking middleware or library abstractions</strong>. This required manually managing <strong>socket lifecycle, connection state, send/receive buffers</strong>, and error handling for both the server and each client.</p>
         </div>
 
         <div class="system-item">
           <h3>Custom Network Protocol Design</h3>
-          <p>Designed and implemented custom message protocols for client-server communication. Messages covered: player input events, fruit spawn synchronization, score updates, bomb events, and session end conditions — all structured to minimize bandwidth while keeping game state consistent across all clients.</p>
+          <p>Designed and implemented <strong>custom message protocols</strong> for client-server communication. Messages covered: player input events, fruit spawn synchronization, score updates, bomb events, and session end conditions — all structured to <strong>minimize bandwidth</strong> while keeping game state consistent across all clients.</p>
         </div>
 
         <div class="system-item">
           <h3>Server-Authoritative Architecture</h3>
-          <p>The server owned and managed all authoritative game state — fruit positions, scores, and bomb events. Clients sent input events to the server, which resolved them and broadcast state updates back to all connected players, preventing any single client from having an unfair advantage or corrupting shared state.</p>
+          <p>The server <strong>owned and managed all authoritative game state</strong> — fruit positions, scores, and bomb events. Clients sent input events to the server, which resolved them and broadcast state updates back to all connected players, <strong>preventing any single client from having an unfair advantage</strong> or corrupting shared state.</p>
         </div>
       </div>
     </div>

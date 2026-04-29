@@ -6,7 +6,11 @@
       "Bash(osascript)",
       "Bash(lsof -i :3000 -sTCP:LISTEN -P -n)",
       "Bash(kill 82041)",
-      "Bash(curl -sI http://localhost:3000/assets/Maxwell-Wainwright-Resume.pdf)"
+      "Bash(curl -sI http://localhost:3000/assets/Maxwell-Wainwright-Resume.pdf)",
+      "Bash(ffmpeg -y -i \"/Users/maxwellwainwright/Desktop/DoomClimbScreenshots/Simulator Screen Recording - iPhone 17 - 2026-04-27 at 12.46.17.mov\" -c:v libx264 -crf 28 -preset medium -vf \"scale=720:-2\" -c:a aac -b:a 96k -movflags +faststart /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)",
+      "Bash(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)",
+      "Bash(ffmpeg -y -i /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4 -vf \"select=eq\\(n\\\\,30\\)\" -vframes 1 -q:v 3 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough-poster.jpg)",
+      "Bash(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)"
     ]
   }
 }

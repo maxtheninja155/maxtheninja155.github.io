@@ -51,14 +51,14 @@
         <h2>Overview</h2>
         <p>
           Tectonic Tactics is a turn-based strategy game developed at Hunu Interactive. My focus was on the
-          systems layer — building the networking infrastructure, designer tooling, and AI opponent that power
-          the game. The goal throughout was to create systems that were not just functional, but designer-friendly:
-          non-programmers could iterate on abilities, tune AI difficulty, and create new content without ever
-          touching code.
+          systems layer — building the <strong>networking infrastructure, designer tooling, and AI opponent</strong> that power
+          the game. The goal throughout was to create systems that were not just functional, but <strong>designer-friendly</strong>:
+          non-programmers could iterate on abilities, tune AI difficulty, and <strong>create new content without ever
+          touching code</strong>.
         </p>
         <p>
-          The multiplayer implementation supports cross-platform play between Windows, Mac, and iOS devices, with
-          players connecting from anywhere in the United States through Unity's Lobby and Relay services.
+          The multiplayer implementation supports <strong>cross-platform play between Windows, Mac, and iOS</strong>, with
+          players connecting from anywhere in the United States through <strong>Unity's Lobby and Relay services</strong>.
         </p>
       </div>
 
@@ -67,22 +67,22 @@
 
         <div class="system-item">
           <h3>CSV-to-Scriptable Object Ability Pipeline</h3>
-          <p>Built a tool that allowed game designers to author ability templates directly in spreadsheets. Importing a CSV into the Unity project automatically parsed the data and populated ScriptableObjects acting as ability definitions. Creating new abilities or tuning existing ones became a two-step, code-free process — dramatically speeding up the design iteration cycle.</p>
+          <p>Built a tool that allowed game designers to <strong>author ability templates directly in spreadsheets</strong>. Importing a CSV into the Unity project automatically parsed the data and populated <strong>ScriptableObjects</strong> acting as ability definitions. Creating new abilities or tuning existing ones became a <strong>two-step, code-free process</strong> — dramatically speeding up the design iteration cycle.</p>
         </div>
 
         <div class="system-item">
           <h3>Minimax AI with Difficulty Scaling</h3>
-          <p>Implemented a minimax algorithm that builds subtrees of possible game outcomes and selects the moves that maximise the bot's positional advantage. The AI's aggressiveness and risk tolerance are exposed as tunable parameters — fully adjustable by game designers with no code changes required — allowing the bot to feel challenging for veteran players while remaining accessible at lower difficulties.</p>
+          <p>Implemented a <strong>minimax algorithm</strong> that builds <strong>subtrees of possible game outcomes</strong> and selects the moves that maximise the bot's positional advantage. The AI's aggressiveness and risk tolerance are exposed as <strong>tunable parameters</strong> — fully adjustable by game designers with <strong>no code changes required</strong> — allowing the bot to feel challenging for veteran players while remaining accessible at lower difficulties.</p>
         </div>
 
         <div class="system-item">
           <h3>Server-Authoritative Command Interface</h3>
-          <p>Designed a Command Interface pattern where all player inputs — unit movement, captures, and unique unit abilities — are packaged as commands and sent to a CommandProcessor on the server. The server validates each command (preventing client-side cheating), executes it authoritatively, then fires Client RPCs to sync visuals across all connected clients.</p>
+          <p>Designed a <strong>Command Interface pattern</strong> where all player inputs — unit movement, captures, and unique unit abilities — are packaged as commands and sent to a CommandProcessor on the server. The server <strong>validates each command</strong> (preventing client-side cheating), executes it authoritatively, then fires <strong>Client RPCs</strong> to sync visuals across all connected clients.</p>
         </div>
 
         <div class="system-item">
           <h3>Cross-Platform Lobby System</h3>
-          <p>Built a lobby system using Unity's Lobby and Relay APIs that allows players on Windows, Mac, and iPhone to discover and connect to each other regardless of geographical location or device type — tested successfully between opposite ends of the United States.</p>
+          <p>Built a lobby system using <strong>Unity's Lobby and Relay APIs</strong> that allows players on <strong>Windows, Mac, and iPhone</strong> to discover and connect to each other regardless of geographical location or device type — tested successfully between opposite ends of the United States.</p>
         </div>
       </div>
     </div>
