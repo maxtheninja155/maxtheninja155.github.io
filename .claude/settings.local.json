@@ -10,7 +10,17 @@
       "Bash(ffmpeg -y -i \"/Users/maxwellwainwright/Desktop/DoomClimbScreenshots/Simulator Screen Recording - iPhone 17 - 2026-04-27 at 12.46.17.mov\" -c:v libx264 -crf 28 -preset medium -vf \"scale=720:-2\" -c:a aac -b:a 96k -movflags +faststart /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)",
       "Bash(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)",
       "Bash(ffmpeg -y -i /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4 -vf \"select=eq\\(n\\\\,30\\)\" -vframes 1 -q:v 3 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough-poster.jpg)",
-      "Bash(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)"
+      "Bash(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/doomclimb/walkthrough.mp4)",
+      "Read(//Users/maxwellwainwright/Desktop/SoftEng/Screenshots/**)",
+      "Bash(unzip -l Archive.zip)",
+      "Bash(unzip -o Archive.zip -d extracted/)",
+      "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-05-01 at 12.03.54 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/content-grid.png)",
+      "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-05-01 at 12.04.37 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/dashboard-overview.png)",
+      "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-05-01 at 12.04.51 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/dashboard-metrics.png)",
+      "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-05-01 at 12.04.13 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/user-management.png)",
+      "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-04-29 at 1.59.04 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/content-search.png)",
+      "Bash(ffmpeg -version)",
+      "Bash(ffmpeg -i '/Users/maxwellwainwright/Desktop/SoftEng/Screen Recording 2026-05-01 at 12.22.39 PM.mov' -vf scale=-2:900 -c:v libx264 -preset fast -crf 24 -c:a aac -b:a 96k -movflags +faststart /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/hanover-demo.mp4)"
     ]
   }
 }
