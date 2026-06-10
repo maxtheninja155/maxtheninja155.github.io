@@ -20,7 +20,9 @@
       "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-05-01 at 12.04.13 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/user-management.png)",
       "Bash(cp '/Users/maxwellwainwright/Desktop/SoftEng/Screenshots/extracted/Screenshot 2026-04-29 at 1.59.04 PM.png' /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/content-search.png)",
       "Bash(ffmpeg -version)",
-      "Bash(ffmpeg -i '/Users/maxwellwainwright/Desktop/SoftEng/Screen Recording 2026-05-01 at 12.22.39 PM.mov' -vf scale=-2:900 -c:v libx264 -preset fast -crf 24 -c:a aac -b:a 96k -movflags +faststart /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/hanover-demo.mp4)"
+      "Bash(ffmpeg -i '/Users/maxwellwainwright/Desktop/SoftEng/Screen Recording 2026-05-01 at 12.22.39 PM.mov' -vf scale=-2:900 -c:v libx264 -preset fast -crf 24 -c:a aac -b:a 96k -movflags +faststart /Users/maxwellwainwright/Documents/Portfolio/maxtheninja155.github.io/assets/hanover/hanover-demo.mp4)",
+      "Read(//Users/maxwellwainwright/Desktop/**)",
+      "Read(//Users/maxwellwainwright/Documents/Unity/Github_Projects/GameDocumentation/**)"
     ]
   }
 }

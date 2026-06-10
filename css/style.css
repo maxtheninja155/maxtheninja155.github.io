@@ -486,6 +486,13 @@ img {
   background-position: center;
 }
 
+.card-volley {
+  background-color: #0a1f12;
+  background-image: url('../assets/volley/clip-bots-rally-poster.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
 /* ==========================================
    About Section
    ========================================== */
@@ -1301,6 +1308,39 @@ img {
   color: var(--accent);
   font-weight: 500;
   margin-right: 6px;
+}
+
+/* Bulleted list inside deep-dive body */
+.deepdive-list {
+  list-style: none;
+  margin: 18px 0 4px;
+  padding: 0;
+}
+
+.deepdive-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.deepdive-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+
+.deepdive-list li strong {
+  color: var(--text);
+  font-weight: 500;
 }
 
 /* Inline phone screenshot strip inside deep-dive */

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backyard Volley &mdash; Maxwell Wainwright</title>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html#projects" class="nav-back">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Projects
+      </a>
+      <div class="nav-links">
+        <a href="../index.html#projects" class="nav-link">Work</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="project-hero">
+    <p class="project-eyebrow">First-Person Online 2v2 Volleyball &mdash; Solo, 6-Week Sprint</p>
+    <h1 class="project-title">Backyard Volley</h1>
+    <div class="project-tags">
+      <span class="project-tag">Unity 6 / C#</span>
+      <span class="project-tag">Photon Fusion 2</span>
+      <span class="project-tag">Custom Netcode</span>
+      <span class="project-tag">Multiplayer</span>
+      <span class="project-tag">AI Teammates</span>
+      <span class="project-tag">Deterministic Physics</span>
+      <span class="project-tag">Procedural Animation</span>
+      <span class="project-tag">In-Editor Tooling</span>
+      <span class="project-tag">Solo Dev</span>
+    </div>
+  </div>
+
+  <!-- Hero gameplay video (muted loop — game audio version to follow) -->
+  <div class="project-media">
+    <div class="media-container">
+      <video
+        src="../assets/volley/clip-spike-rally.mp4"
+        poster="../assets/volley/clip-spike-rally-poster.jpg"
+        autoplay muted loop playsinline preload="metadata">
+      </video>
+    </div>
+    <p class="code-caption">First-person spikes from the practice court. Your mouse <em>is</em> your arm &mdash; every hit is a physical mouse flick, no context buttons. (Debug HUD on; final audio pass to follow.)</p>
+  </div>
+
+  <!-- Overview + sidebar -->
+  <div class="project-content">
+    <div class="project-main">
+      <div class="project-description">
+        <h2>Overview</h2>
+        <p>
+          Backyard Volley is a <strong>first-person, online 2v2 grass volleyball game</strong> for Steam (Windows),
+          built <strong>solo in a six-week sprint</strong> under (The) Ninja Production. The defining mechanic:
+          <strong>the player's mouse is their arm</strong>. Every hit &mdash; spike, tip, bump, set, block, serve &mdash; is
+          performed by physically flicking the mouse. There are no context buttons and no hit-selection
+          menus; the game derives intent from the player's state at the moment of ball contact &mdash; airborne
+          or grounded, button held or not, look angle.
+        </p>
+        <p>
+          Tonally it's deliberately low-stakes and high-energy, designed for a four-person Discord call
+          where failure is funny rather than frustrating. Underneath that silliness, one person designed
+          and built a <strong>novel input mechanic</strong>, <strong>custom low-latency multiplayer netcode</strong>, a full
+          <strong>AI teammate system</strong>, <strong>procedural animation</strong>, <strong>in-editor telemetry tooling</strong>, and a tutorial
+          system &mdash; under a hard self-imposed deadline with formal milestone gates, hitting every gate
+          on schedule.
+        </p>
+        <p>
+          <strong>A note on the visuals:</strong> the character model and court are intentionally minimal. This was a
+          deliberate scope decision &mdash; the art pass was the last week's work, and the project is first and
+          foremost a <strong>systems-and-feel showcase</strong>. What you're looking at is the engineering, with the
+          paint still drying.
+        </p>
+      </div>
+
+      <div class="systems-section">
+        <h2>Headline Systems</h2>
+
+        <div class="system-item">
+          <h3>Custom Ball Netcode &mdash; &ldquo;the ball is five numbers&rdquo;</h3>
+          <p>The standard approach (replicate a rigidbody via snapshot interpolation) put a <strong>200&ndash;300ms visible delay on the hitter's own touches</strong>. So I deleted the physics engine from the ball: it's kinematic, and its position is a <strong>pure closed-form function of five networked values</strong>, evaluated identically on every client every frame. Prediction with <strong>nothing to reconcile</strong>, and bounces solved as math.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>The Input System &mdash; &ldquo;your mouse is your arm&rdquo;</h3>
+          <p>Swing strength is measured in <strong>camera-rotation degrees per second, not mouse pixels</strong>, so DPI doesn't change the game. A <strong>per-player adaptive calibration</strong> fits the skill curve to gentle and aggressive flickers alike, and the power formula composes <strong>three independent skill axes</strong> &mdash; flick intensity, flick timing, and jump-phase timing.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>AI Teammates &mdash; &ldquo;four players needed, one available&rdquo;</h3>
+          <p>A 2v2 game needs four players to test; a solo dev has one. So I built full AI players where <strong>a bot is just a second producer of input</strong> &mdash; one branch, every downstream system shared. Difficulty <strong>degrades perception, never buffs physics</strong>, and the attack planner runs <strong>real projectile math</strong> on the deterministic ball.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="project-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-item">
+          <span class="sidebar-label">Platform</span>
+          <span class="sidebar-value">Steam (Windows 64-bit)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Engine</span>
+          <span class="sidebar-value">Unity 6 LTS &middot; C#</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Networking</span>
+          <span class="sidebar-value">Photon Fusion 2 (shared)</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Sim / Send</span>
+          <span class="sidebar-value">32 Hz / 16 Hz</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Mode</span>
+          <span class="sidebar-value">Online 2v2 &middot; first to 15</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Build</span>
+          <span class="sidebar-value">6-week solo sprint</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Studio</span>
+          <span class="sidebar-value">(The) Ninja Production</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Role</span>
+          <span class="sidebar-value">Solo &mdash; design, code, tooling, audio, production</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Price</span>
+          <span class="sidebar-value">$4.99</span>
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Status</span>
+          <span class="sidebar-value">In development &mdash; June 2026</span>
+        </div>
+        <div class="sidebar-item">
+          <span class="sidebar-label">Year</span>
+          <span class="sidebar-value">2026</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ============================== -->
+  <!-- Deep dive: code + media        -->
+  <!-- ============================== -->
+  <section class="project-deepdive">
+
+    <!-- 01 Ball is five numbers -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">01</span>
+        <span class="deepdive-label">Netcode</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>The Ball Is Five Numbers</h3>
+        <p>
+          The standard way to network a physics object is to replicate the rigidbody transform via
+          snapshot interpolation. In two-client testing of an earlier <code>NetworkRigidbody3D</code>-based
+          build, that produced a <strong>200&ndash;300ms visible delay on the hitter's own touches</strong>. In a game
+          whose entire premise is &ldquo;your mouse is your arm,&rdquo; lag between your flick and the ball
+          responding kills the product &mdash; and snapshot interpolation is <em>behind real-time by design</em>.
+        </p>
+        <p>
+          The insight: a ball in flight is a parabola. It doesn't need a physics engine &mdash; it needs five
+          parameters. So I made the ball kinematic and described its entire trajectory with five
+          <code>[Networked]</code> values that every client evaluates identically.
+        </p>
+        <div class="deepdive-stats">
+          <span class="deepdive-stat"><strong>5</strong> networked values</span>
+          <span class="deepdive-stat"><strong>0</strong> PhysX on the ball</span>
+          <span class="deepdive-stat"><strong>200&ndash;300ms</strong> delay removed</span>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C# &middot; Photon Fusion 2</span>
+            <span class="code-block-file">Assets/Scripts/Gameplay/Ball.cs &middot; ~L176</span>
+          </div>
+<pre><code>// ─── Networked trajectory state ──────────────────────────────────
+//
+// The full ball trajectory is described by these five values. All
+// clients compute pos(t) from them; no transform-sync needed.
+[Networked] int     TrajectoryStartTick  { get; set; }
+[Networked] Vector3 TrajectoryStartPos   { get; set; }
+[Networked] Vector3 TrajectoryStartVel   { get; set; }
+[Networked] float   TrajectoryGravity    { get; set; }
+[Networked] int     TrajectoryGeneration { get; set; }
+
+// ─── Local override (hitter prediction) ─────────────────────────
+//
+// Stores the SAME data the authority will write to [Networked] state
+// once the RPC lands. We pass startPos + startTick through the RPC so
+// the authority's write uses identical values — that way the local
+// override and the networked trajectory describe the EXACT same
+// parabola, and the handoff is invisible.
+bool    _hasLocalOverride;
+int     _localOverrideGen;
+int     _localOverrideStartTick;
+Vector3 _localOverrideStartPos;
+Vector3 _localOverrideStartVel;
+float   _localOverrideGravity;</code></pre>
+        </div>
+        <p class="code-caption">Photon Fusion 2 provides the transport, replication framework, and the character-controller base. The ball trajectory model, all hit systems, the AI, and the tooling are mine.</p>
+      </div>
+    </div>
+
+    <!-- 02 Rendering the parabola -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">02</span>
+        <span class="deepdive-label">Rendering</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Rendering the Parabola at 60+Hz on a 32Hz Sim</h3>
+        <p>
+          Position is a pure function of <code>(startPos, startVel, gravity, elapsed)</code>. To bridge the
+          32Hz network simulation to 60+Hz rendering, I self-rolled a sub-tick interpolator rather than
+          depend on a Fusion API (<code>Runner.LocalAlpha</code>) that isn't stable across SDK versions: I
+          track wall-clock time since the last observed tick advance and derive a <code>[0,1]</code> fraction.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Gameplay/Ball.cs &middot; ~L464</span>
+          </div>
+<pre><code>static Vector3 ComputeBallisticPos(Vector3 startPos, Vector3 startVel, float gravity, float elapsedSeconds) {
+    if (elapsedSeconds &lt; 0f) elapsedSeconds = 0f;
+    return startPos
+         + startVel * elapsedSeconds
+         + 0.5f * Vector3.down * gravity * elapsedSeconds * elapsedSeconds;
+}
+
+// Fractional sim tick at the current render frame. We track Time.time
+// at the most-recent observed Runner.Tick advance and derive a [0,1]
+// fraction from wall-clock elapsed since then. Gives smooth render-
+// rate ball motion (60+Hz) on top of the 32Hz sim.
+float CurrentFractionalTick() {
+    int currentTick = (int)Runner.Tick;
+    if (currentTick != _cachedLastTick) {
+        _cachedLastTick      = currentTick;
+        _cachedTickStartTime = Time.time;
+    }
+    float dt      = Runner.DeltaTime;
+    float subTick = (Time.time - _cachedTickStartTime) / Mathf.Max(0.0001f, dt);
+    if (subTick &lt; 0f) subTick = 0f;
+    if (subTick &gt; 1f) subTick = 1f;
+    return currentTick + subTick;
+}
+
+// ... consumed in LateUpdate(), every render frame on every client:
+GetActiveTrajectory(out int startTick, out Vector3 startPos, out Vector3 startVel, out float gravity);
+float elapsedTicks = CurrentFractionalTick() - startTick;
+float elapsed      = elapsedTicks * Runner.DeltaTime;
+Vector3 ballisticPos = ComputeBallisticPos(startPos, startVel, gravity, elapsed);</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Prediction handoff -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">03</span>
+        <span class="deepdive-label">Prediction</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Prediction With Nothing to Reconcile</h3>
+        <p>
+          When a non-authority player hits the ball, their client renders the predicted trajectory
+          instantly as a local override &mdash; and the RPC to the authority <strong>carries the hitter's own
+          start position and start tick</strong>. The authority writes those values verbatim. Local prediction
+          and the eventual authoritative state therefore describe <em>the exact same curve from the exact
+          same baseline</em>: when the generation counter acknowledges the hit and the override drops, the
+          rendered position is continuous. No snap, no smoothing pass, no reconciliation error to hide.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Gameplay/Ball.cs &middot; ~L558</span>
+          </div>
+<pre><code>public void ApplySpikeImpulse(Vector3 newVelocity, float gravityMultiplier = 1f, float rollAmount = 0f,
+                              int originatingSideLayer = -1, NetworkId hitterId = default) {
+    // ...
+    if (Object != null &amp;&amp; Object.IsValid &amp;&amp; !HasStateAuthority) {
+        int expectedGen  = TrajectoryGeneration + 1;
+        int startTick    = (int)Runner.Tick;
+        Vector3 startPos = transform.position;
+        SetLocalOverride(startPos, newVelocity, gravity, expectedGen, startTick);
+        Rpc_ApplySpikeImpulse(newVelocity, gravityMultiplier, rollAmount, originatingSideLayer,
+                              startPos, startTick, hitterId);
+        return;
+    }
+    ApplySpikeImpulseAuthoritative(transform.position, (int)Runner.Tick, newVelocity,
+                                   gravityMultiplier, rollAmount, originatingSideLayer, hitterId);
+}
+
+[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+void Rpc_ApplySpikeImpulse(Vector3 newVelocity, float gravityMultiplier, float rollAmount,
+                           int originatingSideLayer, Vector3 hitterStartPos, int hitterStartTick,
+                           NetworkId hitterId, RpcInfo info = default) {
+    LastHitter = info.Source; // the proxy client that sent the hit = the hitting player
+    ApplySpikeImpulseAuthoritative(hitterStartPos, hitterStartTick, newVelocity,
+                                   gravityMultiplier, rollAmount, originatingSideLayer, hitterId);
+}
+
+// ... in LateUpdate(): drop the override once authority catches up — same parabola, zero snap
+if (_hasLocalOverride &amp;&amp; TrajectoryGeneration &gt;= _localOverrideGen) {
+    _hasLocalOverride = false;
+}</code></pre>
+        </div>
+        <p class="code-caption">Because prediction and authority render the same closed-form parabola from the same tick baseline, added latency delays <em>acknowledgment</em>, not position agreement. The design is latency-tolerant by construction.</p>
+      </div>
+    </div>
+
+    <!-- 04 Collision becomes math -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">04</span>
+        <span class="deepdive-label">Collision</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Collision Becomes Math</h3>
+        <p>
+          With no physics step, floor bounces are detected analytically: bracket the height crossing
+          across one sim tick, solve the kinematics quadratic for the <strong>exact sub-tick contact time</strong>
+          (careful root selection &mdash; the larger root is the downward crossing because the leading
+          coefficient is negative), and write the reflected trajectory as a fresh authoritative parabola.
+          No tunneling at 32Hz, exact bounce positions, and the bounce replicates everywhere through the
+          same five-value model.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Gameplay/Ball.cs &middot; ~L964</span>
+          </div>
+<pre><code>if (currentPos.y &gt; bounceTriggerY &amp;&amp; nextPos.y &lt;= bounceTriggerY) {
+    // Solve quadratic for exact crossing time of the ball-center plane:
+    //   startPos.y + startVel.y*t - 0.5*g*t² = bounceTriggerY
+    float a = -0.5f * TrajectoryGravity;
+    float b = TrajectoryStartVel.y;
+    float c = TrajectoryStartPos.y - bounceTriggerY;
+    float disc = b * b - 4f * a * c;
+    if (disc &lt; 0f) return;
+    float sq = Mathf.Sqrt(disc);
+    float t1 = (-b + sq) / (2f * a);
+    float t2 = (-b - sq) / (2f * a);
+    // Want the downward crossing — the larger positive root (with a &lt; 0).
+    float bounceT = Mathf.Max(t1, t2);
+    // ...
+    Vector3 bounceVel = ComputeBallisticVel(TrajectoryStartVel, TrajectoryGravity, bounceT);
+    bounceVel.y = -bounceVel.y;
+    bounceVel  *= _bounceRestitution;
+    SetAuthoritativeTrajectory(bouncePos, bounceVel, TrajectoryGravity, (int)Runner.Tick);
+}</code></pre>
+        </div>
+        <p class="code-caption">The net is solved the same way: an analytic plane-crossing on the authority, with a 15cm &ldquo;tape&rdquo; band that always trickles the ball over and a &ldquo;body&rdquo; that reflects it back with heavy velocity loss. A side benefit of the whole model: the ball's flight is <strong>deterministic</strong> &mdash; which is what makes the AI's exact landing prediction possible.</p>
+      </div>
+    </div>
+
+    <!-- 05 Swing strength -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">05</span>
+        <span class="deepdive-label">Input</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Swing Strength in Degrees, Not Pixels</h3>
+        <p>
+          Raw mouse delta is scaled by look sensitivity into what the camera actually rotates &mdash; so two
+          players with different mouse DPI produce <strong>identical swing values for the same physical
+          motion</strong>. Hardware fairness, baked into the unit system. Swing inputs travel as <strong>raw per-tick
+          mouse deltas</strong>, not a client-computed power scalar, so there's no single &ldquo;I swung at max power&rdquo;
+          value to forge; the swing window is rebuilt on the simulating peer from raw input.
+        </p>
+        <p>
+          The hit impulse RPC <em>does</em> carry the hitter's computed velocity, which the authority accepts
+          verbatim &mdash; a deliberate trust-model decision for a friends-only-lobby game (it's what makes the
+          invisible prediction handoff possible), with the per-tick input design keeping the door open for
+          authority-side validation later.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C# &middot; FixedUpdateNetwork</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayer.cs &middot; ~L770</span>
+          </div>
+<pre><code>// Swing-strength input per tick = camera rotation rate (deg).
+// Scaling raw mouse delta by lookSensitivity matches what the
+// camera physically rotates per tick, so two players with the same
+// Look Sensitivity but different DPI produce the same swing-strength
+// value for the same physical motion (self-normalizing across hardware).
+Vector2 swingDelta = input.LookDelta * lookSensitivity;
+
+_swingDeltas[_swingWriteIdx] = swingDelta;   // rolling 8-tick window of VECTORS (direction matters)
+_swingWriteIdx = (_swingWriteIdx + 1) % _swingDeltas.Length;
+// ...
+// Swing-attempt detection. Rising edge requires BOTH magnitude above
+// threshold AND direction in the downward hemisphere — so cocking the
+// arm back (mouse UP fast) doesn't burn the one swing attempt per jump.
+float recentAngle   = ComputeRecentSwingAngleFromDown(AttemptDirectionTicks);
+bool  magOk         = livePeak &gt;= swooshThreshold;
+bool  attemptableDir = recentAngle &lt;= spike.maxAttemptAngleFromDown;
+
+if (magOk &amp;&amp; attemptableDir &amp;&amp; !_wasAttemptableLastTick
+    &amp;&amp; IsAirborneForSpike &amp;&amp; !_isSwinging &amp;&amp; !_swingUsedThisAirtime) {
+    _isSwinging           = true;
+    _swingUsedThisAirtime = true;
+    // ...
+}</code></pre>
+        </div>
+        <p class="code-caption">A slow asymmetric EMA (rises fast, falls slowly, persisted across sessions) tracks each player's typical flick intensity, so a gentle flicker and an aggressive flicker both get the full skill curve &mdash; same ratios, different absolute numbers.</p>
+      </div>
+    </div>
+
+    <!-- 06 Power formula -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">06</span>
+        <span class="deepdive-label">Skill Curve</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Three Skill Axes, One Power Formula</h3>
+        <p>
+          The power formula composes <strong>three independent skill axes</strong> &mdash; flick intensity, flick
+          timing, and jump-phase timing &mdash; with bonus ceilings deliberately sized so a perfect-everything
+          hit lands exactly on the speed cap. Each hit type then has a <em>designed</em> skill curve, not just
+          different numbers. The standout: the <strong>tip inverts the spike's &ldquo;harder = better&rdquo; relationship</strong>.
+          Tip arc is driven by an AnimationCurve with a hump in the middle, so a soft-to-medium swing
+          produces the perfect dink over a block, while a hard swing flattens into a telegraphed deep ball.
+          The skill is <em>resisting</em> the full-power instinct.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayer.cs &middot; ~L2542</span>
+          </div>
+<pre><code>int   peakAge      = (recentIdx - peakIdxInBuffer + windowSize) % windowSize;
+float timingOffset = peakAge * Runner.DeltaTime;
+bool  isPerfect    = timingOffset &lt;= spike.perfectWindow;
+
+// Power: linear ramp from base→maxNonPerfectSpeed over [0, effectiveFlickPeak].
+// Two stacking bonuses on top:
+//   • perfectPowerBonus (×~1.12) for perfect FLICK timing
+//   • peakJumpBonus     (+~0.25) for contact in the JUMP-peak window
+// Combined max ~1.40× — sized so a hard-perfect-peak hit reaches maxBallSpeed exactly.
+float effectiveFlickPeak = spike.useAdaptiveFlickReference ? _calibratedFlickPeak : spike.flickPeakReference;
+float t     = Mathf.Clamp01(peakMag / Mathf.Max(1f, effectiveFlickPeak));
+float power = spike.baseSpikeVelocity + (spike.maxNonPerfectSpeed - spike.baseSpikeVelocity) * t;
+if (isPerfect) power *= spike.perfectPowerBonus;
+if (phaseAtContact == JumpPhase.Peak &amp;&amp; spike.peakJumpBonus &gt; 0f) power *= (1f + spike.peakJumpBonus);
+power = Mathf.Min(power, spike.maxBallSpeed);</code></pre>
+        </div>
+        <p class="code-caption">A player gets <strong>one swing attempt per jump</strong> &mdash; a whiffed spike can't be retried mid-air, which is what makes whiffs both meaningful and funny. Hit types are readable after the fact, too: tips render a purple trail and bounce marks, spikes a distinct trail and red marks, so spectators can decode what happened from the court.</p>
+      </div>
+    </div>
+
+    <!-- Mid-page gameplay video: human + bots -->
+    <div class="project-media">
+      <div class="media-container">
+        <video
+          src="../assets/volley/clip-player-match.mp4"
+          poster="../assets/volley/clip-player-match-poster.jpg"
+          autoplay muted loop playsinline preload="metadata">
+        </video>
+      </div>
+      <p class="code-caption">A live 2v2 point: one human alongside three AI players. Human and bot share every system below the input seam &mdash; movement, hit detection, scoring, networking, visuals.</p>
+    </div>
+
+    <!-- 07 Bot is a second input producer -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">07</span>
+        <span class="deepdive-label">AI</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>A Bot Is Just a Second Producer of Input</h3>
+        <p>
+          A 2v2 game needs four simultaneous players to test, and a solo dev has one. Rather than wait on
+          friends' availability, I built full AI players &mdash; and the architecture is the story. The entire
+          AI integration is <strong>a single branch at the one point where input enters the simulation</strong>. Bots
+          and humans share every downstream system, with zero duplication.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C# &middot; FixedUpdateNetwork</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayer.cs &middot; ~L737</span>
+          </div>
+<pre><code>// Input source: a bot synthesizes its input on the state authority (master) via its
+// brain; a human pulls input from Fusion's GetInput on the input-authority client.
+// Everything below this is identical for both.
+PlayerInput input;
+if (_isBot) {
+    if (!HasStateAuthority) return;            // bot is simulated only on the master
+    input = _botBrain != null ? _botBrain.ProduceInput() : default;
+} else {
+    if (!GetInput(out input)) return;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08 Difficulty degrades perception -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">08</span>
+        <span class="deepdive-label">AI Difficulty</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Difficulty Degrades Perception, Never Buffs Physics</h3>
+        <p>
+          Skill levels are modeled as human-shaped flaws, not stat boosts. A reaction timer restarts
+          whenever the ball's trajectory changes; Gaussian landing-prediction noise shrinks as the ball
+          approaches, so reads resolve late, like a human; and a re-read cadence makes stale targets
+          visibly persist. A Rookie looks late and loose; a Pro looks tight. <strong>Both obey identical
+          movement physics.</strong>
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/AI/WorldModel.cs &middot; ~L76</span>
+          </div>
+<pre><code>// When the ball's trajectory CHANGES (just launched, or a hit/bounce jumps its
+// velocity), restart a reaction timer. Until it expires the bot keeps acting on
+// its OLD read — the "human-late" feel.
+bool justLaunched = inFlight &amp;&amp; !_wasInFlight;
+bool bigVelJump   = (snap.BallVel - _lastBallVel).magnitude &gt; ReactionVelChangeThreshold;
+if (justLaunched || bigVelJump) _reactionReadyTime = now + Mathf.Max(0f, _config.reactionTime);
+// ...
+// Prediction noise: large when the ball is far / just-hit, shrinking as it nears —
+// so reads resolve late. Re-applied each re-read.
+float decay = _config.predictionNoiseDecay.Evaluate(tToLand);
+float sigma = Mathf.Max(0f, _config.predictionNoiseMeters) * decay;
+_committedTarget = new Vector3(
+    trueLand.x + (float)Gaussian() * sigma,
+    trueLand.y,
+    trueLand.z + (float)Gaussian() * sigma);</code></pre>
+        </div>
+
+        <div class="media-container" style="margin-top: 28px;">
+          <video
+            src="../assets/volley/clip-bots-rally.mp4"
+            poster="../assets/volley/clip-bots-rally-poster.jpg"
+            autoplay muted loop playsinline preload="metadata">
+          </video>
+        </div>
+        <p class="code-caption">A full 2v2 match with all four seats filled by bots &mdash; the observation scene. Press Play, watch volleyball happen, tune knobs. Receive &rarr; set &rarr; running jump-spike, with deliberately delayed blocks. Clumsy moments are on-brand.</p>
+      </div>
+    </div>
+
+    <!-- 09 Reading a teammate -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">09</span>
+        <span class="deepdive-label">AI Cooperation</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Reading a Human Teammate's Intent</h3>
+        <p>
+          A human can't broadcast &ldquo;I've got it,&rdquo; so the bot reads the same signals a human teammate
+          would: proximity to the predicted contact, velocity toward it, replicated body state (someone in
+          bump stance is committing), and facing. Human and AI partners arbitrate &ldquo;who takes the ball&rdquo;
+          through one shared confidence interface.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/AI/TeammateModel.cs &middot; ~L70</span>
+          </div>
+<pre><code>public override float ClaimConfidence(TeammateContext ctx) {
+    // proximity: 1 when on top of the predicted contact, →0 at humanProximityRadius
+    float prox = Mathf.Clamp01(1f - dist / Mathf.Max(0.5f, _cfg.humanProximityRadius));
+    // approach: moving toward the contact (m/s along dir, ~4 m/s = full)
+    float approach = Mathf.Clamp01(Vector3.Dot(vel, dir) / 4f);
+    // state: the highest-signal term — Stance/SetStance = committing, airborne = attacking
+    float state = StateScore(Player.CurrentBodyState);
+    // facing: yaw aligned toward the ball
+    float facing = Mathf.Clamp01(Vector3.Dot(fwd, dir));
+
+    return Mathf.Clamp01(_cfg.humanClaimProximityWeight * prox
+                       + _cfg.humanClaimApproachWeight  * approach
+                       + _cfg.humanClaimStateWeight     * state
+                       + _cfg.humanClaimFacingWeight    * facing);
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 Real projectile math -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">10</span>
+        <span class="deepdive-label">AI Attack Planning</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Real Projectile Math in the Attack Planner</h3>
+        <p>
+          The spike-drive solver reduces the net-clearance constraint to a closed-form minimum
+          time-of-flight, then bisects time-of-flight on the monotonic fast/flat branch to hit a
+          designer-specified launch speed &mdash; so the ball lands at the aim point, in-bounds, as fast as the
+          net allows. The deterministic ball model from the netcode section is exactly what makes this
+          exact prediction possible.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/AI/BotBrain.cs &middot; ~L618</span>
+          </div>
+<pre><code>// Minimum time-of-flight for a contact→aim parabola to cross the net plane (z=0)
+// at &gt;= netTop+margin. Net-plane height grows monotonically with T² → closed-form min T.
+float MinTimeToClearNet(Vector3 contact, Vector3 aim, float margin) {
+    float g = -Physics.gravity.y;
+    float cz = contact.z, az = aim.z, cy = contact.y;
+    float k = Mathf.Clamp(Mathf.Abs(az - cz) &gt; 0.01f ? -cz / (az - cz) : 0.5f, 0.05f, 0.95f);
+    float netClearY = ResolveNetTopY() + Mathf.Max(0f, margin);
+    float rhs = (netClearY / (1f - k) - cy) / (0.5f * g * k);
+    return rhs &gt; 0f ? Mathf.Sqrt(rhs) : 0f;
+}
+
+Vector3 ComputeSpikeDrive(Vector3 contact, Vector3 aim, float targetSpeed) {
+    float g = -Physics.gravity.y;
+    float horizDist = new Vector2(aim.x - contact.x, aim.z - contact.z).magnitude;
+    float dy = aim.y - contact.y;
+    float lo = 0.2f, hi = Mathf.Max(0.3f, config.returnMaxTimeOfFlight);
+    for (int i = 0; i &lt; 22; i++) {       // |v0| falls as T grows on this branch → bisect for it
+        float mid = 0.5f * (lo + hi);
+        float vh  = horizDist / mid;
+        float vy  = dy / mid + 0.5f * g * mid;
+        if (Mathf.Sqrt(vh * vh + vy * vy) &gt; Mathf.Max(1f, targetSpeed)) lo = mid; else hi = mid;
+    }
+    float T = Mathf.Clamp(Mathf.Max(hi, MinTimeToClearNet(contact, aim, config.spikeNetClearanceMargin)),
+                          0.2f, config.returnMaxTimeOfFlight);
+    Vector3 v0 = (aim - contact) / T;
+    v0.y += 0.5f * g * T;
+    return v0;
+}</code></pre>
+        </div>
+        <p class="code-caption">The bots run a full perception &rarr; decision &rarr; actuation pipeline: receive, set with lane variety, run an approach into a jump-spike, block with deliberately delayed timing, aim at the open court, and mix spike vs tip based on the defense.</p>
+      </div>
+    </div>
+
+    <!-- 11 Movement plant -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">11</span>
+        <span class="deepdive-label">Movement</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>The Volleyball &ldquo;Plant&rdquo;</h3>
+        <p>
+          A deliberate physics deviation in service of defense: at the jump moment, a curve-driven
+          fraction of horizontal speed converts into vertical boost. Sprint approaches trade forward
+          momentum for hang time, exactly like a real volleyball plant, so defenders can read the
+          hitter's approach. Mid-air control is deliberately minimal &mdash; free air mobility would collapse
+          the read-the-hitter game.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayer.cs &middot; ~L1094</span>
+          </div>
+<pre><code>// Approach-momentum jump: convert a fraction of horizontal speed into
+// vertical boost (volleyball plant). Curve maps approach speed →
+// conversion fraction. Bypasses _kcc.Jump() because we need to modify
+// horizontal too, not just bump Y.
+float conversionFrac = Mathf.Clamp01(movement.approachToVerticalCurve.Evaluate(approachSpeed));
+float verticalBoost  = approachSpeed * conversionFrac * movement.verticalConversionRatio;
+
+Vector3 newHoriz = approachSpeed &gt; 0.01f ? horizontalVel * (1f - conversionFrac) : Vector3.zero;
+vel.x = newHoriz.x;
+vel.z = newHoriz.z;
+vel.y = movement.jumpVelocity + verticalBoost;
+_kcc.Velocity = vel;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 Hit-intent architecture -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">12</span>
+        <span class="deepdive-label">Architecture</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Five Hit Types, One Seam</h3>
+        <p>
+          Hit type is <strong>derived from player state at the moment of ball contact</strong> &mdash; never picked from
+          a menu. A layered state machine separates body state from hit-attempt lifecycle from derived
+          intent, so adding a new hit type touches one branch in one method. The comments document a real
+          bug class the design prevents: intent locks at stance entry, so the upward camera motion of a
+          hard bump gesture can't re-derive the wrong intent mid-swing.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayer.cs &middot; ~L1813</span>
+          </div>
+<pre><code>HitIntent DeriveHitIntent() {
+    BodyState body = CurrentBodyState;
+    if (body == BodyState.Blocking) return HitIntent.Block;
+
+    if (body == BodyState.AirborneRising || body == BodyState.AirborneFalling) {
+        if (_fireHeldThisTick) return HitIntent.Tip;
+        return HitIntent.Spike;
+    }
+    if (body == BodyState.SetStance) return HitIntent.Set;
+
+    if (body == BodyState.Stance || body == BodyState.Dashing) {
+        // Intent is committed at stance entry — look angle at contact moment
+        // no longer matters (hysteresis keeps you in Stance through
+        // mid-gesture camera pans, e.g. the upward boost-swing motion).
+        return HitIntent.Bump;
+    }
+    return HitIntent.None;   // glancing contact, no intent
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 Procedural feel -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">13</span>
+        <span class="deepdive-label">Game Feel</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Procedural Feel, Computed From Physics</h3>
+        <p>
+          A bridge layer translates gameplay state directly into bone control on the rigged character.
+          There are <strong>no impact animation clips</strong>: every contact pushes the hands back along the inverse
+          of the outgoing ball velocity (hard spikes recoil harder), compresses them with a squash factor,
+          and decays both with frame-rate-independent exponential lerps. Feel is computed from the same
+          physics values that drive the ball.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayerVisuals.cs &middot; ~L276</span>
+          </div>
+<pre><code>void OnLocalHitFromPlayer(Vector3 outgoingVel) {
+    float speed     = outgoingVel.magnitude;
+    float magnitude = Mathf.Min(speed * impactPushPerMps, impactMaxDistance);
+    _impactOffsetR  = -outgoingVel.normalized * magnitude;
+    _impactOffsetL  = _impactOffsetR;
+    _impactSquashR  = 1f;
+    _impactSquashL  = 1f;
+    _headImpactIntensity = Mathf.Min(_headImpactIntensity + speed * headImpactIntensityPerMps, 1f);
+}</code></pre>
+        </div>
+        <p>
+          It also contains a fix for a subtle Unity Animator footgun: an additive read-modify-write on a
+          bone compounds forever when the active clip has no keyframes for that bone, because the Animator
+          never resets it. The fix is to always compose <code>smoothedBaseline * offset</code> and never read
+          the bone back.
+        </p>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">C#</span>
+            <span class="code-block-file">Assets/Scripts/Player/VolleyPlayerVisuals.cs &middot; ~L335</span>
+          </div>
+<pre><code>// Apply impact tilt as a multiplicative offset on top of the smoothed pose.
+// Always writes from `_smoothedHeadRot * tiltQuat` — no read of bone state,
+// so no compounding regardless of whether the animator wrote the bone.
+float impactTilt = -headImpactTiltDegrees * _headImpactIntensity;
+_headBone.localRotation = _smoothedHeadRot * Quaternion.Euler(impactTilt, 0f, 0f);</code></pre>
+        </div>
+        <p class="code-caption">Hit feedback is also a multi-layer audio system: a <strong>swoosh</strong> on the swing (whiffs included), a <strong>thump</strong> on every contact, and a <strong>slap</strong> layered on top <em>only for perfect-timing contact</em> &mdash; a perfect hit is audible before it's visible.</p>
+      </div>
+    </div>
+
+    <!-- 14 Tooling -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">14</span>
+        <span class="deepdive-label">Tooling</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Built for a One-Person Feel-Tuning Loop</h3>
+        <p>
+          Tuning a game by feel, solo, demands fast iteration tooling. So I built it:
+        </p>
+        <ul class="deepdive-list">
+          <li><strong>In-editor telemetry window</strong> (a custom <code>EditorWindow</code>): a scrolling 5-second swing-magnitude graph with ~2 minutes of buffered history, calibration reference lines, airborne-shaded regions, color-coded event markers (jump / land / swoosh / perfect / soft / rejected / whiff), and a clickable event list that locks and centers the graph on any past event. All <code>#if UNITY_EDITOR</code>-gated &mdash; zero runtime cost in builds.</li>
+          <li><strong>Two ball-machine test rigs</strong>: a SettingMachine that feeds sets <em>to</em> you (3 set types &times; 3 targets, parabola math with controllable apex, scene-view trajectory gizmos) and a HittingMachine that spikes balls <em>at</em> you for receive practice.</li>
+          <li><strong>Tutorial system</strong> with a notable design call: slow-motion <em>ball</em>, not slow-motion time &mdash; scaling <code>Time.timeScale</code> would also slow the player's arm and break muscle-memory transfer, so only the ball's effective gravity and launch velocity scale while player input runs at full speed.</li>
+          <li><strong>All tuning lives in ScriptableObject configs</strong> (SpikeConfig, TipConfig, BumpConfig, MovementConfig, BotConfig, NetConfig&hellip;), read every tick so values can be dragged during Play mode. A/B testing is swapping an asset reference on the prefab.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 15 Process -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">15</span>
+        <span class="deepdive-label">Process</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Production Discipline Under a Hard Deadline</h3>
+        <p>
+          The engineering is only half of why this is a portfolio piece. The other half is shipping it on
+          a self-imposed six-week clock without the systems collapsing into chaos.
+        </p>
+        <div class="deepdive-stats">
+          <span class="deepdive-stat"><strong>Week 1</strong> spike-feel kill-gate &mdash; passed</span>
+          <span class="deepdive-stat"><strong>Week 3</strong> networking gate &mdash; passed</span>
+          <span class="deepdive-stat"><strong>~4 days</strong> tracked buffer</span>
+        </div>
+        <ul class="deepdive-list">
+          <li>A design document treated as the <strong>binding spec</strong> &mdash; when code and doc disagree, the doc wins.</li>
+          <li>A <strong>kill-gate at Week 1</strong>: if the core swing didn't feel good to an external playtester, the project pauses. It passed.</li>
+          <li>A <strong>risk register</strong> with named risks (spike feel, networking overrun, Steam lobby bridge, burnout) and per-risk mitigations. Networking risk was front-loaded into Week&nbsp;3 with a hard gate &mdash; two clients, a full rally, no desync &mdash; passed on schedule.</li>
+          <li>A written <strong>out-of-scope list</strong> (cosmetics, ranked, host migration, localization&hellip;) to prevent scope negotiation at 11pm, and a strict implementation order that front-loads risk: hardest mechanic first, networking before polish.</li>
+        </ul>
+        <p class="code-caption">As of June 2026, all gameplay systems are shipped and verified; the project is in its polish phase. Source available on request.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Prev / Next -->
+  <div class="project-nav">
+    <a href="hunu-interactive.html" class="project-nav-link">
+      <span class="nav-direction">Previous Project</span>
+      <span class="nav-proj-title">&larr; Tectonic Tactics</span>
+    </a>
+    <a href="doom-climb.html" class="project-nav-link next">
+      <span class="nav-direction">Next Project</span>
+      <span class="nav-proj-title">DoomClimb &rarr;</span>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-name">Maxwell Wainwright</span>
+      <div class="footer-links">
+        <a href="https://maxtheninja155.itch.io/" target="_blank" rel="noopener">itch.io</a>
+        <a href="https://github.com/maxtheninja155" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/maxwell-wainwright/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <span class="footer-copy">&copy; 2026</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
