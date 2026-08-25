@@ -32,7 +32,7 @@
 
   <!-- Hero -->
   <div class="project-hero">
-    <p class="project-eyebrow">First-Person Online 2v2 Volleyball &mdash; Solo, 6-Week Sprint</p>
+    <p class="project-eyebrow">First-Person Online 2v2 / 3v3 Volleyball &mdash; Solo Dev</p>
     <h1 class="project-title">Backyard Volley</h1>
     <div class="project-tags">
       <span class="project-tag">Unity 6 / C#</span>
@@ -42,21 +42,29 @@
       <span class="project-tag">AI Teammates</span>
       <span class="project-tag">Deterministic Physics</span>
       <span class="project-tag">Procedural Animation</span>
+      <span class="project-tag">Toon Rendering</span>
+      <span class="project-tag">Cinemachine Replay Cam</span>
+      <span class="project-tag">Steamworks</span>
       <span class="project-tag">In-Editor Tooling</span>
       <span class="project-tag">Solo Dev</span>
     </div>
   </div>
 
-  <!-- Hero gameplay video (muted loop — game audio version to follow) -->
+  <!-- Hero gameplay video: full 3v3 AI-vs-AI match -->
   <div class="project-media">
     <div class="media-container">
       <video
-        src="../assets/volley/clip-spike-rally.mp4"
-        poster="../assets/volley/clip-spike-rally-poster.jpg"
+        src="../assets/volley/clip-bot-match.mp4"
+        poster="../assets/volley/clip-bot-match-poster.jpg"
         autoplay muted loop playsinline preload="metadata">
       </video>
     </div>
-    <p class="code-caption">First-person spikes from the practice court. Your mouse <em>is</em> your arm &mdash; every hit is a physical mouse flick, no context buttons. (Debug HUD on; final audio pass to follow.)</p>
+    <p class="code-caption">A full AI-vs-AI 3v3 match &mdash; every player on screen is a bot producing the same per-tick input a human would. The receive &rarr; set &rarr; spike coordination, attack lanes, block timing, the shipped toon art pass, and the reworked ball VFX are all live gameplay; nothing is scripted.</p>
+    <div class="deepdive-stats" style="justify-content: center;">
+      <span class="deepdive-stat"><strong>7</strong> bot personalities on one court</span>
+      <span class="deepdive-stat"><strong>2v2 or 3v3</strong> &mdash; empty seats fill with AI</span>
+      <span class="deepdive-stat"><strong>Every point</strong> ends in a cinematic replay synced by one networked int</span>
+    </div>
   </div>
 
   <!-- Overview + sidebar -->
@@ -65,26 +73,33 @@
       <div class="project-description">
         <h2>Overview</h2>
         <p>
-          Backyard Volley is a <strong>first-person, online 2v2 grass volleyball game</strong> for Steam (Windows),
-          built <strong>solo in a six-week sprint</strong> under (The) Ninja Production. The defining mechanic:
-          <strong>the player's mouse is their arm</strong>. Every hit &mdash; spike, tip, bump, set, block, serve &mdash; is
-          performed by physically flicking the mouse. There are no context buttons and no hit-selection
-          menus; the game derives intent from the player's state at the moment of ball contact &mdash; airborne
-          or grounded, button held or not, look angle.
+          Backyard Volley is a <strong>first-person, online 2v2 or 3v3 grass volleyball game</strong> for Steam
+          (Windows) &mdash; team size is host-selectable, and <strong>empty seats fill with AI players</strong>. It's
+          built solo under (The) Ninja Production: the core game in a <strong>six-week sprint</strong>, followed by a
+          deliberate pre-launch push. The defining mechanic: <strong>the player's mouse is their arm</strong>. Every
+          hit &mdash; spike, tip, bump, set, block, serve &mdash; is performed by physically flicking the mouse.
+          There are no context buttons and no hit-selection menus; the game derives intent from the
+          player's state at the moment of ball contact &mdash; airborne or grounded, button held or not,
+          look angle.
         </p>
         <p>
-          Tonally it's deliberately low-stakes and high-energy, designed for a four-person Discord call
-          where failure is funny rather than frustrating. Underneath that silliness, one person designed
-          and built a <strong>novel input mechanic</strong>, <strong>custom low-latency multiplayer netcode</strong>, a full
-          <strong>AI teammate system</strong>, <strong>procedural animation</strong>, <strong>in-editor telemetry tooling</strong>, and a tutorial
-          system &mdash; under a hard self-imposed deadline with formal milestone gates, hitting every gate
-          on schedule.
+          Tonally it's deliberately low-stakes and high-energy, designed for a Discord call where failure
+          is funny rather than frustrating. Underneath that silliness, one person designed and built a
+          <strong>novel input mechanic</strong>, <strong>custom low-latency multiplayer netcode</strong>, a full
+          <strong>AI teammate system</strong>, <strong>procedural animation</strong>, a <strong>cinematic instant-replay system</strong>,
+          an <strong>overlay-free Steam social layer</strong>, a complete <strong>toon art pass</strong>, <strong>in-editor telemetry
+          tooling</strong>, and a tutorial system &mdash; under formal milestone gates, hitting every gate on schedule.
         </p>
         <p>
-          <strong>A note on the visuals:</strong> the character model and court are intentionally minimal. This was a
-          deliberate scope decision &mdash; the art pass was the last week's work, and the project is first and
-          foremost a <strong>systems-and-feel showcase</strong>. What you're looking at is the engineering, with the
-          paint still drying.
+          The game now wears its full art pass: a stylized toon-rendered backyard &mdash; procedurally-textured
+          grass with mowing stripes, chalk court lines, a see-through cord net, scattered trees and
+          courtside props &mdash; under unified warm midday lighting shared across every scene. Players are a
+          rigged cat character with per-team toon materials, and each player's <strong>gamertag and Steam
+          avatar are baked onto the back of their jersey at runtime</strong> &mdash; replay ghosts included. Two
+          engineering details hide in the paint: every environment texture is <strong>generated by
+          deterministic Python scripts</strong> (edit the generator, never the PNG), and the character pipeline
+          swaps models by prefab-GUID, so every tuning override and animation clip survived the
+          placeholder&rarr;final swap untouched.
         </p>
       </div>
 
@@ -102,8 +117,13 @@
         </div>
 
         <div class="system-item">
-          <h3>AI Teammates &mdash; &ldquo;four players needed, one available&rdquo;</h3>
-          <p>A 2v2 game needs four players to test; a solo dev has one. So I built full AI players where <strong>a bot is just a second producer of input</strong> &mdash; one branch, every downstream system shared. Difficulty <strong>degrades perception, never buffs physics</strong>, and the attack planner runs <strong>real projectile math</strong> on the deterministic ball.</p>
+          <h3>AI Teammates &mdash; &ldquo;a full court needed, one player available&rdquo;</h3>
+          <p>A volleyball game needs a full court to test; a solo dev has one player. So I built full AI players where <strong>a bot is just a second producer of input</strong> &mdash; one branch, every downstream system shared. What began as a test harness shipped as a feature: <strong>seven personality archetypes</strong> now fill empty seats in real online matches, with difficulty that <strong>degrades perception, never buffs physics</strong>.</p>
+        </div>
+
+        <div class="system-item">
+          <h3>Instant Replay &mdash; &ldquo;synced by one integer&rdquo;</h3>
+          <p>Every point ends in a cinematic slow-mo replay that adds <strong>zero new ball networking</strong>. Each client re-plays its own render-frame ring buffer of already-replicated state; because the ball is deterministic, <strong>a single networked &ldquo;go&rdquo; pulse</strong> puts every client's replay in lockstep.</p>
         </div>
       </div>
     </div>
@@ -128,12 +148,12 @@
         </div>
         <div class="sidebar-item">
           <span class="sidebar-label">Mode</span>
-          <span class="sidebar-value">Online 2v2 &middot; first to 15</span>
+          <span class="sidebar-value">Online 2v2 or 3v3 &middot; first to 15, win by 2</span>
         </div>
         <div class="sidebar-divider"></div>
         <div class="sidebar-item">
           <span class="sidebar-label">Build</span>
-          <span class="sidebar-value">6-week solo sprint</span>
+          <span class="sidebar-value">6-week sprint + launch push</span>
         </div>
         <div class="sidebar-item">
           <span class="sidebar-label">Studio</span>
@@ -141,7 +161,7 @@
         </div>
         <div class="sidebar-item">
           <span class="sidebar-label">Role</span>
-          <span class="sidebar-value">Solo &mdash; design, code, tooling, audio, production</span>
+          <span class="sidebar-value">Solo &mdash; design, code, art, tooling, audio, production</span>
         </div>
         <div class="sidebar-item">
           <span class="sidebar-label">Price</span>
@@ -150,7 +170,7 @@
         <div class="sidebar-divider"></div>
         <div class="sidebar-item">
           <span class="sidebar-label">Status</span>
-          <span class="sidebar-value">In development &mdash; June 2026</span>
+          <span class="sidebar-value">In development &mdash; pre-launch polish, August 2026</span>
         </div>
         <div class="sidebar-item">
           <span class="sidebar-label">Year</span>
@@ -431,6 +451,15 @@ if (magOk &amp;&amp; attemptableDir &amp;&amp; !_wasAttemptableLastTick
 }</code></pre>
         </div>
         <p class="code-caption">A slow asymmetric EMA (rises fast, falls slowly, persisted across sessions) tracks each player's typical flick intensity, so a gentle flicker and an aggressive flicker both get the full skill curve &mdash; same ratios, different absolute numbers.</p>
+
+        <div class="media-container" style="margin-top: 28px;">
+          <video
+            src="../assets/volley/clip-spike-rally.mp4"
+            poster="../assets/volley/clip-spike-rally-poster.jpg"
+            autoplay muted loop playsinline preload="metadata">
+          </video>
+        </div>
+        <p class="code-caption">The mechanic from the driver's seat: first-person spikes on the practice court. Your mouse <em>is</em> your arm &mdash; every hit is a physical mouse flick, no context buttons. (Early-sprint footage, pre-art-pass, debug HUD on.)</p>
       </div>
     </div>
 
@@ -486,7 +515,7 @@ power = Mathf.Min(power, spike.maxBallSpeed);</code></pre>
           autoplay muted loop playsinline preload="metadata">
         </video>
       </div>
-      <p class="code-caption">A live 2v2 point: one human alongside three AI players. Human and bot share every system below the input seam &mdash; movement, hit detection, scoring, networking, visuals.</p>
+      <p class="code-caption">A live 2v2 point from the sprint build (pre-art-pass): one human alongside three AI players. Human and bot share every system below the input seam &mdash; movement, hit detection, scoring, networking, visuals.</p>
     </div>
 
     <!-- 07 Bot is a second input producer -->
@@ -498,10 +527,10 @@ power = Mathf.Min(power, spike.maxBallSpeed);</code></pre>
       <div class="deepdive-body">
         <h3>A Bot Is Just a Second Producer of Input</h3>
         <p>
-          A 2v2 game needs four simultaneous players to test, and a solo dev has one. Rather than wait on
-          friends' availability, I built full AI players &mdash; and the architecture is the story. The entire
-          AI integration is <strong>a single branch at the one point where input enters the simulation</strong>. Bots
-          and humans share every downstream system, with zero duplication.
+          A volleyball game needs a full court of simultaneous players to test, and a solo dev has one.
+          Rather than wait on friends' availability, I built full AI players &mdash; and the architecture is
+          the story. The entire AI integration is <strong>a single branch at the one point where input enters
+          the simulation</strong>. Bots and humans share every downstream system, with zero duplication.
         </p>
 
         <div class="code-block">
@@ -520,6 +549,7 @@ if (_isBot) {
     if (!GetInput(out input)) return;
 }</code></pre>
         </div>
+        <p class="code-caption">What began as a test harness shipped as a product feature: in real online matches &mdash; 2v2 or 3v3 &mdash; every empty lobby seat is filled by an archetype bot.</p>
       </div>
     </div>
 
@@ -560,6 +590,14 @@ _committedTarget = new Vector3(
     trueLand.y,
     trueLand.z + (float)Gaussian() * sigma);</code></pre>
         </div>
+        <p>
+          Since the sprint, those two difficulty tiers have grown into <strong>seven personality
+          archetypes</strong>: Rookie and Pro on the skill axis, plus five same-skill <em>personalities</em> &mdash;
+          Spiker &ldquo;SLAMURAI&rdquo;, Blocker &ldquo;BRICKHOUSE&rdquo;, Libero &ldquo;SCOOPS&rdquo;, Setter
+          &ldquo;MAESTRO&rdquo;, and Scrambler &ldquo;ZOOMIES&rdquo;. Same skill ceiling, different strengths
+          &mdash; and teams are round-robin-filled so every AI team is a mix. Difficulty is still input
+          quality, never cheat-speed.
+        </p>
 
         <div class="media-container" style="margin-top: 28px;">
           <video
@@ -568,14 +606,40 @@ _committedTarget = new Vector3(
             autoplay muted loop playsinline preload="metadata">
           </video>
         </div>
-        <p class="code-caption">A full 2v2 match with all four seats filled by bots &mdash; the observation scene. Press Play, watch volleyball happen, tune knobs. Receive &rarr; set &rarr; running jump-spike, with deliberately delayed blocks. Clumsy moments are on-brand.</p>
+        <p class="code-caption">The observation scene from the early sprint build (pre-art-pass): all four seats filled by bots. Press Play, watch volleyball happen, tune knobs. The hero clip at the top of the page is this same system after the art pass and the team-play overhaul &mdash; in 3v3.</p>
       </div>
     </div>
 
-    <!-- 09 Reading a teammate -->
+    <!-- 09 Team coordination -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
         <span class="deepdive-num">09</span>
+        <span class="deepdive-label">AI Coordination</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>No Two Bots Ever Share a Destination</h3>
+        <p>
+          The June bots coordinated a 2v2. The overhauled coordinator is <strong>N-aware</strong> &mdash; the same
+          team logic runs 2v2 and 3v3 &mdash; and its core job is spacing: three bots on one side of a court
+          must never collapse into the same spot. Coordination is a set of explicit, volleyball-shaped
+          rules rather than emergent hope:
+        </p>
+        <ul class="deepdive-list">
+          <li><strong>Indexed, distinct support roles</strong> &mdash; the coordinator assigns each non-attacker its own role, so bots spread out instead of stacking on the ball.</li>
+          <li><strong>Near-side attack lanes</strong> &mdash; attackers are assigned lanes on their side of the court, so no bot sprints cross-court to spike.</li>
+          <li><strong>The setter clears out</strong> &mdash; after setting, it moves parallel to the net instead of body-blocking its own spiker's approach.</li>
+          <li><strong>Diggers split around the block</strong> &mdash; on defense, back-court bots split left/right around their own blocker, and the bot <strong>closest to the predicted contact calls the dig</strong>.</li>
+          <li><strong>Reads at contact height, not floor-landing</strong> &mdash; and a bot just out of reach can trigger a real defensive dash to lunge for the ball: the same dash mechanic the human has, through the same input seam.</li>
+          <li><strong>Block timing as craft</strong> &mdash; the blocker deliberately jumps a beat <em>after</em> the attacker, so the block's apex meets the spike at the net. Jump with them and you peak too early.</li>
+          <li><strong>A separation system guarantees no two bots ever share a destination.</strong></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 10 Reading a teammate -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">10</span>
         <span class="deepdive-label">AI Cooperation</span>
       </div>
       <div class="deepdive-body">
@@ -608,13 +672,14 @@ _committedTarget = new Vector3(
                        + _cfg.humanClaimFacingWeight    * facing);
 }</code></pre>
         </div>
+        <p class="code-caption">The read got sharper since the sprint: the bots' cover positioning anticipates the human's intent from position plus velocity lookahead, and when a human sets, bots read the set's aim from the <strong>same networked trajectory parameters</strong> that drive the teammates-only set-preview VFX &mdash; one data source for the player's eyes and the bot's brain.</p>
       </div>
     </div>
 
-    <!-- 10 Real projectile math -->
+    <!-- 11 Real projectile math -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
-        <span class="deepdive-num">10</span>
+        <span class="deepdive-num">11</span>
         <span class="deepdive-label">AI Attack Planning</span>
       </div>
       <div class="deepdive-body">
@@ -665,10 +730,10 @@ Vector3 ComputeSpikeDrive(Vector3 contact, Vector3 aim, float targetSpeed) {
       </div>
     </div>
 
-    <!-- 11 Movement plant -->
+    <!-- 12 Movement plant -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
-        <span class="deepdive-num">11</span>
+        <span class="deepdive-num">12</span>
         <span class="deepdive-label">Movement</span>
       </div>
       <div class="deepdive-body">
@@ -702,10 +767,10 @@ _kcc.Velocity = vel;</code></pre>
       </div>
     </div>
 
-    <!-- 12 Hit-intent architecture -->
+    <!-- 13 Hit-intent architecture -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
-        <span class="deepdive-num">12</span>
+        <span class="deepdive-num">13</span>
         <span class="deepdive-label">Architecture</span>
       </div>
       <div class="deepdive-body">
@@ -745,10 +810,10 @@ _kcc.Velocity = vel;</code></pre>
       </div>
     </div>
 
-    <!-- 13 Procedural feel -->
+    <!-- 14 Procedural feel -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
-        <span class="deepdive-num">13</span>
+        <span class="deepdive-num">14</span>
         <span class="deepdive-label">Game Feel</span>
       </div>
       <div class="deepdive-body">
@@ -798,10 +863,89 @@ _headBone.localRotation = _smoothedHeadRot * Quaternion.Euler(impactTilt, 0f, 0f
       </div>
     </div>
 
-    <!-- 14 Tooling -->
+    <!-- 15 Ball VFX -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
-        <span class="deepdive-num">14</span>
+        <span class="deepdive-num">15</span>
+        <span class="deepdive-label">VFX</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Ball VFX That Survive the Outliner</h3>
+        <p>
+          The ball got a full readability rework for the art pass, and nearly every piece of it fights
+          the same constraint: the toon post-process outliner can't see every kind of geometry.
+        </p>
+        <ul class="deepdive-list">
+          <li><strong>A chunky toon ribbon trail</strong> with its edge outline <strong>baked into the trail texture</strong> &mdash; the post-process outliner can't catch trail renderers, so the trail carries its own outline.</li>
+          <li><strong>Per-hit-type faceted accent shards</strong>, plus a brief 3D <strong>impact ring</strong> stamped at each contact &mdash; real outlined geometry, because the outliner ignores billboards &mdash; sequenced ring-then-puff so every contact reads as a beat, not a blend.</li>
+          <li><strong>Team-colored score confetti</strong>, and a <strong>set-trajectory preview visible only to the setter's teammates</strong> &mdash; driven by the same networked trajectory parameters as the ball itself, and the same data the bots read to attack a human's set.</li>
+          <li>All of it is <strong>pure local visuals on every client &mdash; zero new networking</strong>. The five-number ball model already tells every client everything the VFX need to know.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 16 Replay cam -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">16</span>
+        <span class="deepdive-label">Replay Cam</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>Instant Replay, Zero New Ball Networking</h3>
+        <p>
+          Every landing point ends in a cinematic instant replay &mdash; and it's built directly on the
+          netcode section's central claim. <strong>No new ball state crosses the network:</strong> every client
+          records a render-frame ring buffer of the already-replicated player transforms plus the
+          deterministic ball trajectory, and re-plays the point <em>locally</em> from its own buffer. A
+          single networked integer &mdash; a &ldquo;go&rdquo; pulse &mdash; puts all clients in lockstep, because the
+          deterministic speed curve and the replicated bounce anchor mean every client's buffer describes
+          the same event.
+        </p>
+        <p>
+          Presentation is a pooled cast of ghost players (no per-point allocation &mdash; jersey gamertags
+          included) under a Cinemachine orbital-follow + group-framing rig: a dynamic wide&rarr;tight
+          zoom, a <strong>directional dolly that rides the scoring ball's path</strong>, and slow-mo that eases
+          into the landing &mdash; implemented by <strong>scaling the replay's own clock, never
+          <code>Time.timeScale</code></strong>, so the live sim stays honest. Letterboxed, &ldquo;&#9654;
+          REPLAY&rdquo;-stamped, winner/score-tagged, with fade-covered camera swaps at both ends.
+        </p>
+        <p>
+          The social layer is built in: any player can vote to skip, and consensus ends the replay.
+          Votes are generation-stamped, so last round's votes auto-expire.
+        </p>
+      </div>
+    </div>
+
+    <!-- 17 Steam social layer -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">17</span>
+        <span class="deepdive-label">Steamworks</span>
+      </div>
+      <div class="deepdive-body">
+        <h3>An Overlay-Free Steam Social Layer</h3>
+        <p>
+          Steam Lobbies bridge into the existing Photon flow rather than replacing it: the Steam lobby is
+          the invite/social layer, carrying the Photon room code as metadata. Manual code entry and Steam
+          invites are just <strong>two producers of the same session handoff</strong> &mdash; one code path for
+          everything, the same seam philosophy as the bots.
+        </p>
+        <p>
+          The punchline is a constraint: the Steam <strong>overlay turned out to be unusable</strong> under the
+          dev-sandbox App ID (and on macOS test machines), so the invite UX was <strong>rebuilt from scratch,
+          overlay-free, on the raw Steamworks API</strong> &mdash; a custom in-game friends panel with avatars and
+          per-row Invite/Join buttons (greyed unless the friend is in a joinable lobby), incoming-invite
+          popup cards, real Steam personas and avatars in the lobby, friends-list &ldquo;Join Game&rdquo; rich
+          presence, and host-left handling that boots clients gracefully back to the menu. Buddy-tested
+          across two machines.
+        </p>
+      </div>
+    </div>
+
+    <!-- 18 Tooling -->
+    <div class="deepdive-block">
+      <div class="deepdive-meta">
+        <span class="deepdive-num">18</span>
         <span class="deepdive-label">Tooling</span>
       </div>
       <div class="deepdive-body">
@@ -812,16 +956,16 @@ _headBone.localRotation = _smoothedHeadRot * Quaternion.Euler(impactTilt, 0f, 0f
         <ul class="deepdive-list">
           <li><strong>In-editor telemetry window</strong> (a custom <code>EditorWindow</code>): a scrolling 5-second swing-magnitude graph with ~2 minutes of buffered history, calibration reference lines, airborne-shaded regions, color-coded event markers (jump / land / swoosh / perfect / soft / rejected / whiff), and a clickable event list that locks and centers the graph on any past event. All <code>#if UNITY_EDITOR</code>-gated &mdash; zero runtime cost in builds.</li>
           <li><strong>Two ball-machine test rigs</strong>: a SettingMachine that feeds sets <em>to</em> you (3 set types &times; 3 targets, parabola math with controllable apex, scene-view trajectory gizmos) and a HittingMachine that spikes balls <em>at</em> you for receive practice.</li>
-          <li><strong>Tutorial system</strong> with a notable design call: slow-motion <em>ball</em>, not slow-motion time &mdash; scaling <code>Time.timeScale</code> would also slow the player's arm and break muscle-memory transfer, so only the ball's effective gravity and launch velocity scale while player input runs at full speed.</li>
+          <li><strong>Tutorial system</strong> with a notable design call: slow-motion <em>ball</em>, not slow-motion time &mdash; scaling <code>Time.timeScale</code> would also slow the player's arm and break muscle-memory transfer, so only the ball's effective gravity and launch velocity scale while player input runs at full speed. The tutorial itself is mid-rework: five per-mechanic scenes are being folded into <strong>two seamless flows</strong> &mdash; a ~2-minute Beginner tutorial that ends in a real first-to-5 bot match, and a gated Advanced flow against Pro bots &mdash; with mercy-pass gating so nobody gets stuck.</li>
           <li><strong>All tuning lives in ScriptableObject configs</strong> (SpikeConfig, TipConfig, BumpConfig, MovementConfig, BotConfig, NetConfig&hellip;), read every tick so values can be dragged during Play mode. A/B testing is swapping an asset reference on the prefab.</li>
         </ul>
       </div>
     </div>
 
-    <!-- 15 Process -->
+    <!-- 19 Process -->
     <div class="deepdive-block">
       <div class="deepdive-meta">
-        <span class="deepdive-num">15</span>
+        <span class="deepdive-num">19</span>
         <span class="deepdive-label">Process</span>
       </div>
       <div class="deepdive-body">
@@ -840,8 +984,9 @@ _headBone.localRotation = _smoothedHeadRot * Quaternion.Euler(impactTilt, 0f, 0f
           <li>A <strong>kill-gate at Week 1</strong>: if the core swing didn't feel good to an external playtester, the project pauses. It passed.</li>
           <li>A <strong>risk register</strong> with named risks (spike feel, networking overrun, Steam lobby bridge, burnout) and per-risk mitigations. Networking risk was front-loaded into Week&nbsp;3 with a hard gate &mdash; two clients, a full rally, no desync &mdash; passed on schedule.</li>
           <li>A written <strong>out-of-scope list</strong> (cosmetics, ranked, host migration, localization&hellip;) to prevent scope negotiation at 11pm, and a strict implementation order that front-loads risk: hardest mechanic first, networking before polish.</li>
+          <li>The re-scope after the sprint was just as deliberate: the six weeks delivered the playable game on schedule, and everything since &mdash; 3v3 and the bot overhaul, the replay cam, the Steam social layer, the art and VFX pass, and now audio, UI theming, Steamworks setup, and the trailer &mdash; runs as a <strong>scoped, sequenced launch-quality pass with an explicit cut-priority list</strong>. Same discipline, new target.</li>
         </ul>
-        <p class="code-caption">As of June 2026, all gameplay systems are shipped and verified; the project is in its polish phase. Source available on request.</p>
+        <p class="code-caption">As of August 2026, all gameplay systems plus the art pass, replay camera, Steam social layer, and AI team play are shipped; the project is in a structured pre-Steam-launch push &mdash; audio, UI theming, Steamworks setup, trailer. Source available on request.</p>
       </div>
     </div>
 
